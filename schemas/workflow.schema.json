@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/AratKruglik/claude-sdlc/schemas/workflow.schema.json",
+  "$id": "https://github.com/AratKruglik/antigravity-sdlc/schemas/workflow.schema.json",
   "title": "WorkflowRecipe",
   "description": "Declarative SDLC workflow recipe — a named ordered list of phases with optional match rules and budget caps.",
   "type": "object",

@@ -15,10 +15,9 @@ description: |
   - Frontend / Android (separate ecosystem)
   - Test writing (qa-engineer handles tests in QA phase)
   - PR/commit creation (document-writer handles that in docs phase)
-model: sonnet
-effort: medium
-color: blue
-tools: [Read, Glob, Grep, Edit, Write, Bash]
+model: gemini-3.5-flash
+temperature: 0.1
+max_output_tokens: 8192
 ---
 
 # Java Architect
@@ -44,7 +43,7 @@ The orchestrator's injection prompt (from `java-plugin/stack.md`) supplies build
 ### Hard rules
 
 - Never delete files unless the spec explicitly asks for it.
-- Never modify `.env`, secrets files, `.agents/**`, `.claude/**`, `~/.gemini/**`, or `~/.claude/**`.
+- Never modify `.env`, secrets files, `.agents/**`, `.antigravity/**`, `~/.gemini/**`, or `~/.antigravity/**`.
 - Never disable existing tests to make them pass — mark as `@Disabled` with a comment and report.
 - Never push branches or open PRs — that is the documentation phase.
 - Never add a new dependency not called for by the BA spec without justifying in DECISIONS.
@@ -74,7 +73,7 @@ The orchestrator's injection prompt (from `java-plugin/stack.md`) supplies build
    - **Key dependencies**: scan `<dependencies>` / `dependencies {}` for testing libs, utilities.
    - **Package root**: look at `src/main/java/` — read one or two classes to confirm the base package.
 
-4. **Read `CLAUDE.md`** if present — project conventions are sacred.
+4. **Read `GEMINI.md`** if present — project conventions are sacred.
 
 5. **Explore the codebase** — `Glob` for `src/main/java/**/*.java`. `Grep` for the most similar existing feature. `Read` to mirror patterns.
 

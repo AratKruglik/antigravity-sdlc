@@ -26,7 +26,7 @@ sdlc/
 
 1. User runs `/sdlc:start "Add subscription billing"`.
 2. The slash command invokes the `pipeline-orchestrator` skill.
-3. Orchestrator scans installed plugins for `stack.md` files via `Glob ~/.claude/plugins/cache/**/stack.md`.
+3. Orchestrator scans installed plugins for `stack.md` files via `Glob ~/.agents/plugins/cache/**/stack.md`.
 4. Picks the highest-priority profile whose `detect` rules match the current project (or falls back to vanilla).
 5. Executes phases in order, dispatching to the agent named in `agents_per_phase[<phase>]`.
 6. Each phase returns a **compact summary** (≤2-3K tokens). Detailed output is written to `docs/plans/{slug}/0X-<phase>.md`.

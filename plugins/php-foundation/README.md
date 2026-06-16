@@ -21,13 +21,13 @@ This is a **pure skill library** — no agent, no stack profile. It ships stack-
 This plugin is pulled automatically as a dependency of `laravel-plugin` and `symfony-plugin`:
 
 ```
-/plugin install laravel-plugin@sdlc-marketplace
+agy plugin install laravel-plugin@sdlc-marketplace
 # or
-/plugin install symfony-plugin@sdlc-marketplace
+agy plugin install symfony-plugin@sdlc-marketplace
 ```
 
 To install standalone (if you want PHP skills without a stack provider):
 
 ```
-/plugin install php-foundation@sdlc-marketplace
+agy plugin install php-foundation@sdlc-marketplace
 ```

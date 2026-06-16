@@ -1,6 +1,6 @@
-# Claude SDLC Marketplace — Architecture
+# Antigravity SDLC Marketplace — Architecture
 
-> A Claude Code plugin marketplace for a complete AI-assisted SDLC that works on any technology stack (Laravel, Django, NestJS, .NET, …).
+> A Google Antigravity plugin marketplace for a complete AI-assisted SDLC that works on any technology stack (Laravel, Django, NestJS, .NET, …).
 >
 > **Principle:** The core owns the pipeline and does not change. Framework plugins **register themselves** as stack providers via a declarative profile and provide specialized agents. The core reads the profiles and composes the execution.
 
@@ -55,15 +55,13 @@
 
 ```
 sdlc-marketplace/
-├── .claude-plugin/
-│   └── marketplace.json                 ← v0.1.0: 12 entries (2 external + 10 local)
 ├── schemas/
 │   ├── plugin.schema.json               ← JSON schema for plugin.json
 │   └── stack.schema.json                ← JSON schema for stack.md frontmatter
 │
 ├── plugins/
 │   ├── sdlc/
-│   │   ├── .claude-plugin/plugin.json
+│   │   ├── plugin.json
 │   │   ├── commands/
 │   │   │   ├── start.md                 ← /sdlc:start "feature description"
 │   │   │   ├── batch.md                 ← /sdlc:batch (parallel execution)
@@ -99,11 +97,11 @@ sdlc-marketplace/
 │   │   └── agents/rn-architect.md       ← sonnet + effort:medium
 │   │
 │   └── laravel-plugin/
-│       ├── .claude-plugin/plugin.json   ← dependencies: sdlc
+│       ├── plugin.json                  ← dependencies: sdlc
 │       ├── stack.md                     ← Laravel stack profile (priority: 100)
 │       ├── agents/
-│       │   ├── laravel-architect.md     ← Sonnet, replaces developer for Laravel
-│       │   └── artisan-specialist.md    ← Sonnet, for extra phase "database"
+│       │   ├── laravel-architect.md     ← Gemini 3.5 Flash, replaces developer for Laravel
+│       │   └── artisan-specialist.md    ← Gemini 3.5 Flash, for extra phase "database"
 │       ├── skills/
 │       │   ├── laravel-conventions/SKILL.md
 │       │   └── eloquent-patterns/SKILL.md
@@ -225,7 +223,7 @@ For security phase, inject:
 
 ```
 Step 0a · Load declared external plugin dependencies (DEPENDENCIES.md)
-Step 0b · Detect stack profile via Glob ~/.claude/plugins/cache/**/stack.md
+Step 0b · Detect stack profile via Glob ~/.gemini/config/plugins/**/stack.md
 Step 1  · Parse selected profile
 Step 2  · Determine phase order (baseline + extras)
 Step 3  · Execute each phase:
@@ -248,7 +246,7 @@ business_analysis:
 
 development:
   > Implement based on: $CONTEXT.business_analysis_output
-  > Follow project conventions in CLAUDE.md.
+  > Follow project conventions in GEMINI.md.
   > Apply convention skills: {convention_skills}
   > {INJECTED_PROMPT}
   > Return COMPACT summary: files changed (list) + key decisions (3–5 bullets) + blockers.
@@ -290,29 +288,29 @@ Skip-rules save 30–60% of the cost for minor tasks. Without them, running the 
 
 ## 5. Default Core Agents (5 Agents with Built-in Tiering)
 
-All 5 agents live in `sdlc/agents/`. The model and `effort` are selected based on the "cost of mistakes" principle — Opus+high is used where errors would compound across the entire pipeline.
+All 5 agents live in `sdlc/agents/`. The model and `effort` are selected based on the "cost of mistakes" principle — Gemini 3 Pro+high is used where errors would compound across the entire pipeline.
 
 ### 5.0. Full model+effort Table (14 agents including stack providers)
 
 | Agent | Plugin | model | effort | Justification |
 |---|---|---|---|---|
-| `business-analyst` | sdlc | `opus` | `high` | Requirements error cascades through 5 phases; small token volume, maximum leverage |
-| `security-analyst` | sdlc | `opus` | `high` | Non-obvious vulnerabilities (TOCTOU, JWT confusion) require deep reasoning |
-| `developer` | sdlc | `sonnet` | `medium` | Vanilla fallback — execution based on a clear spec |
-| `qa-engineer` | sdlc | `sonnet` | `medium` | Tests based on clear criteria; hard 3-attempt cap keeps cost down |
-| `document-writer` | sdlc | `haiku` | `low` | Structured output from known facts; Haiku yields ~10× savings vs Opus |
-| `laravel-architect` | laravel | `sonnet` | `medium` | Workhorse: Laravel idioms + Inertia frontend |
-| `artisan-specialist` | laravel | `sonnet` | `low` | Mechanical DB work: types/indexes/factories |
-| `node-architect` | nodejs | `sonnet` | `medium` | Express/Fastify — implementation following clear Node.js idioms |
-| `nest-architect` | nestjs | `sonnet` | `medium` | Convention skills (nest-data-layer, nest-advanced) carry per-domain depth |
-| `nextjs-architect` | nextjs | `sonnet` | `medium` | RSC/Client patterns well-defined by spec and convention skills |
-| `react-architect` | react | `sonnet` | `medium` | React conventions and state/routing skills cover variability |
-| `vue-architect` | vue | `sonnet` | `medium` | Vue 3/2 detection and convention skills cover library choice |
-| `angular-architect` | angular | `sonnet` | `medium` | Angular idioms (standalone, signals, NgRx) in convention skills |
-| `rn-architect` | react-native | `sonnet` | `medium` | Expo/bare, iOS/Android axes — convention skills (rn-platform-specific) |
+| `business-analyst` | sdlc | `gemini-3-pro-high` | `high` | Requirements error cascades through 5 phases; small token volume, maximum leverage |
+| `security-analyst` | sdlc | `gemini-3-pro-high` | `high` | Non-obvious vulnerabilities (TOCTOU, JWT confusion) require deep reasoning |
+| `developer` | sdlc | `gemini-3.5-flash` | `medium` | Vanilla fallback — execution based on a clear spec |
+| `qa-engineer` | sdlc | `gemini-3.5-flash` | `medium` | Tests based on clear criteria; hard 3-attempt cap keeps cost down |
+| `document-writer` | sdlc | `gemini-3-flash` | `low` | Structured output from known facts; Gemini 3 Flash yields ~10× savings vs Gemini 3 Pro |
+| `laravel-architect` | laravel | `gemini-3.5-flash` | `medium` | Workhorse: Laravel idioms + Inertia frontend |
+| `artisan-specialist` | laravel | `gemini-3.5-flash` | `low` | Mechanical DB work: types/indexes/factories |
+| `node-architect` | nodejs | `gemini-3.5-flash` | `medium` | Express/Fastify — implementation following clear Node.js idioms |
+| `nest-architect` | nestjs | `gemini-3.5-flash` | `medium` | Convention skills (nest-data-layer, nest-advanced) carry per-domain depth |
+| `nextjs-architect` | nextjs | `gemini-3.5-flash` | `medium` | RSC/Client patterns well-defined by spec and convention skills |
+| `react-architect` | react | `gemini-3.5-flash` | `medium` | React conventions and state/routing skills cover variability |
+| `vue-architect` | vue | `gemini-3.5-flash` | `medium` | Vue 3/2 detection and convention skills cover library choice |
+| `angular-architect` | angular | `gemini-3.5-flash` | `medium` | Angular idioms (standalone, signals, NgRx) in convention skills |
+| `rn-architect` | react-native | `gemini-3.5-flash` | `medium` | Expo/bare, iOS/Android axes — convention skills (rn-platform-specific) |
 
 > **About temperature and effort:**  
-> Claude Code does not support per-subagent `temperature` in frontmatter. Reasoning budget control is managed exclusively via the `effort` field (`low`/`medium`/`high`/`xhigh`/`max`), which overrides the session level. `effort: high` on Opus is the most expensive path; hence only 2 leverage agents.
+> Google Antigravity does not support per-subagent `temperature` in frontmatter. Reasoning budget control is managed exclusively via the `effort` field (`low`/`medium`/`high`/`xhigh`/`max`), which overrides the session level. `effort: high` on Gemini 3 Pro is the most expensive path; hence only 2 leverage agents.
 
 | Agent | model | effort | Tools (least-privilege) |
 |---|---|---|---|
@@ -357,7 +355,7 @@ Target budget for a medium-complexity feature (e.g., "Stripe billing module"):
 
 | Scenario | Cost/run |
 |---|---|
-| All-Opus (Rolique mandate — cancelled) | $4.05 |
+| All-Gemini 3 Pro (Rolique mandate — cancelled) | $4.05 |
 | Model tiering (opus/sonnet/haiku) | $2.66 |
 | + `effort: high` only for BA/Security | ~$2.80 (slightly more expensive, but justified reasoning) |
 | + prompt caching (60% hit) | $1.90 |
@@ -374,13 +372,13 @@ Target budget for a medium-complexity feature (e.g., "Stripe billing module"):
 
 ### 6.3. Prompt Caching as a Design Principle
 
-Claude Code performs prompt caching automatically, but **only for stable system prompts**. This means:
+Google Antigravity performs prompt caching automatically, but **only for stable system prompts**. This means:
 
 - Agent frontmatter is stable (not dynamically generated).
 - Phase prompt injection goes at the very end of the prompt (to cache the prefix).
 - Skill content is NOT dynamically generated — it remains static markdown.
 
-Expected cache hit rate with stable prompts: 60% on Sonnet, 40% on Opus → ~30% input discount.
+Expected cache hit rate with stable prompts: 60% on Gemini 3.5 Flash, 40% on Gemini 3 Pro → ~30% input discount.
 
 ### 6.4. Skip-rules and Phase Parallelism
 
@@ -410,11 +408,11 @@ This tracks the cost-per-feature trend and answers "where are tokens being burne
 
 ## 7. External Plugin Dependencies (Superpowers)
 
-Plugins in our marketplace can depend on external Claude Code plugins (like `obra/superpowers`) to reuse their skills — without copying third-party code into our repository.
+Plugins in our marketplace can depend on external Google Antigravity plugins (like `obra/superpowers`) to reuse their skills — without copying third-party code into our repository.
 
 ### 7.1. Realistic Boundaries
 
-Claude Code lacks native dependency resolution. Silent auto-install is **technically impossible**: slash commands (`/plugin install`) can only be executed by the user. Therefore, our strategy is **guided install**:
+Google Antigravity lacks native dependency resolution. Silent auto-install is **technically impossible**: slash commands (`/plugin install`) can only be executed by the user. Therefore, our strategy is **guided install**:
 
 1. Declare the dependency in `plugin.json`.
 2. At pipeline startup, the orchestrator performs a single preflight check.
@@ -486,7 +484,7 @@ Implementation details + JSON Schema are in `DEPENDENCIES.md`. The short version
 ### 7.5. What We Do NOT Do Regarding Dependencies
 
 - We do **not** check in every agent — only in the orchestrator at startup.
-- We do **not** implement project-level `.claude-sdlc.json` overrides in v1.0 — the manifest is sufficient.
+- We do **not** implement project-level `.antigravity-sdlc.json` overrides in v1.0 — the manifest is sufficient.
 - We do **not** remember a declined installation between sessions — the user might have installed the plugin in the meantime.
 - We do **not** poll in a loop after `suggest_plugin_install` — asynchronous installation is unverifiable; aborting and repeating the command is more honest.
 
@@ -496,8 +494,8 @@ Implementation details + JSON Schema are in `DEPENDENCIES.md`. The short version
 
 ```bash
 # Installation (one-time)
-/plugin marketplace add your-org/sdlc-marketplace
-/plugin install laravel-plugin@sdlc-marketplace
+agy plugin install your-org/sdlc-marketplace
+agy plugin install laravel-plugin@sdlc-marketplace
 # sdlc will be pulled in as a dependency
 
 # Status check
@@ -514,12 +512,12 @@ Implementation details + JSON Schema are in `DEPENDENCIES.md`. The short version
 # Pipeline run (one command for all stacks)
 /sdlc:start "Add subscription billing with Stripe"
 # → Detected stack: laravel (from laravel-plugin/stack.md)
-# → Phase 1/6: business_analysis (Opus)
-# → Phase 2/6: development → laravel-architect (Sonnet)
-# → Phase 3/6: database → artisan-specialist (Sonnet) [extra phase]
-# → Phase 4/6: qa (Sonnet)
-# → Phase 5/6: security (Opus)
-# → Phase 6/6: documentation (Haiku)
+# → Phase 1/6: business_analysis (Gemini 3 Pro)
+# → Phase 2/6: development → laravel-architect (Gemini 3.5 Flash)
+# → Phase 3/6: database → artisan-specialist (Gemini 3.5 Flash) [extra phase]
+# → Phase 4/6: qa (Gemini 3.5 Flash)
+# → Phase 5/6: security (Gemini 3 Pro)
+# → Phase 6/6: documentation (Gemini 3 Flash)
 # → Post-pipeline: pint --test, php artisan test, route:list
 # → ✅ Completed in 187s, $1.42 spent, PR #142
 
@@ -536,11 +534,11 @@ Without any core changes. Example for Django:
 
 ```
 django-plugin/
-├── .claude-plugin/plugin.json     ← dependencies: sdlc
+├── plugin.json                         ← dependencies: sdlc
 ├── stack.md                        ← detect: manage.py + django in requirements.txt
 ├── agents/
-│   ├── django-architect.md        ← Sonnet
-│   └── drf-specialist.md          ← Sonnet (extra phase: api-layer)
+│   ├── django-architect.md        ← Gemini 3.5 Flash
+│   └── drf-specialist.md          ← Gemini 3.5 Flash (extra phase: api-layer)
 ├── skills/
 │   ├── django-conventions/SKILL.md
 │   └── orm-patterns/SKILL.md
@@ -611,7 +609,7 @@ Examples (post-Phase 5):
 
 **`laravel-plugin` will be split** in Phase 5: backend and database aspects will remain, while frontend (Inertia+Vue) will move to a dedicated `inertia-vue-plugin`. The current `laravel-architect` will become backend-only; Inertia/Vue domain knowledge will live in the new `inertia-vue-architect`.
 
-**Current Workaround (v0.0.1) for non-Vue Laravel projects:** via `<project>/.claude/sdlc.local.yaml` `extra_phase_prompts` or `CLAUDE.md` — see details in `PROJECT_INTEGRATION.md` §8.
+**Current Workaround (v0.0.1) for non-Vue Laravel projects:** via `<project>/.agents/sdlc.local.yaml` `extra_phase_prompts` or `GEMINI.md` — see details in `PROJECT_INTEGRATION.md` §8.
 
 **Full architecture, alternatives considered, and migration path:** [`docs/decisions/ADR-014-aspect-tagged-profiles.md`](./docs/decisions/ADR-014-aspect-tagged-profiles.md).
 
@@ -649,7 +647,7 @@ All of these systems have scaled for decades because the contract of "registrati
 
 ## 13. Open Questions (To Be Resolved During Implementation)
 
-1. **Exact plugin cache path.** `~/.claude/plugins/cache/**/stack.md` is an assumption. Verify in Phase 0 on the live system and pin it down in the orchestrator skill.
+1. **Exact plugin cache path.** `~/.gemini/config/plugins/**/stack.md` is an assumption. Verify in Phase 0 on the live system and pin it down in the orchestrator skill.
 2. **How the core orchestrator calculates `diff < 50 LOC`** for skip-rules — `git diff` against `main`, or another method? To be finalized in Phase 3.
 3. **Should `--stack` override in `/sdlc:start` persist across runs** within a session? For now, no — each run is treated independently.
 4. **Version compatibility between core@X and framework-plugin@Y.** For now, the `dependencies` block in `plugin.json` uses semver. Standard versioning rules apply.

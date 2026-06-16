@@ -36,11 +36,11 @@ Reused from `python-foundation`:
 ## Install
 
 ```bash
-# From the claude-sdlc marketplace root
-npx claude-sdlc install django-plugin
+# From the antigravity-sdlc marketplace root
+npx antigravity-sdlc install django-plugin
 ```
 
-Or add to your project's `.claude-sdlc/plugins.json`:
+Or add to your project's `.antigravity-sdlc/plugins.json`:
 
 ```json
 {

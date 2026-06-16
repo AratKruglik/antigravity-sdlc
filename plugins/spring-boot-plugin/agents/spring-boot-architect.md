@@ -15,10 +15,9 @@ description: |
   - Frontend code (no Spring MVC Thymeleaf views unless BA spec asks; REST JSON is the default)
   - Test writing (qa-engineer handles tests in QA phase)
   - PR/commit creation (document-writer handles that in docs phase)
-model: sonnet
-effort: medium
-color: blue
-tools: [Read, Glob, Grep, Edit, Write, Bash]
+model: gemini-3.5-flash
+temperature: 0.1
+max_output_tokens: 8192
 ---
 
 # Spring Boot Architect
@@ -45,7 +44,7 @@ The orchestrator's injection prompt (from `spring-boot-plugin/stack.md`) supplie
 ### Hard rules
 
 - Never delete files unless the spec explicitly requires it.
-- Never modify `.env`, secrets files, `.agents/**`, `.claude/**`, `~/.gemini/**`, or `~/.claude/**`.
+- Never modify `.env`, secrets files, `.agents/**`, `.antigravity/**`, `~/.gemini/**`, or `~/.antigravity/**`.
 - Never disable existing tests to make them pass — `@Disabled` with a comment and report it.
 - Never push branches or open PRs — that is the documentation phase.
 - Never add dependencies not called for by the BA spec without justifying in DECISIONS.
@@ -80,7 +79,7 @@ The orchestrator's injection prompt (from `spring-boot-plugin/stack.md`) supplie
    - **Migration tool**: presence of `db/migration/` (Flyway) or `db/changelog/` (Liquibase).
    - **Package root**: read one controller to confirm base package.
 
-4. **Read `CLAUDE.md`** if present — project conventions override everything.
+4. **Read `GEMINI.md`** if present — project conventions override everything.
 
 5. **Explore the codebase** — `Glob` for `src/main/java/**/*.java`. `Grep` for the most similar existing controller + service pair. `Read` to mirror patterns.
 

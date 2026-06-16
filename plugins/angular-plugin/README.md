@@ -31,7 +31,7 @@ Adds an Angular-specific implementation agent (`angular-architect`) and 5 skills
 
 ## Cross-plugin skill reuse
 
-`angular-plugin` declares `dependencies: ["sdlc", "js-foundation"]` in `plugin.json` — Claude Code auto-installs `js-foundation` when you install this. The stack profile references skills from both plugins:
+`angular-plugin` declares `dependencies: ["sdlc", "js-foundation"]` in `plugin.json` — Google Antigravity auto-installs `js-foundation` when you install this. The stack profile references skills from both plugins:
 
 - `js-foundation:typescript-patterns` — strict TypeScript discipline (stack-agnostic).
 - `js-foundation:npm-patterns` — package manager detection, semver, lockfile hygiene.
@@ -44,8 +44,8 @@ Adds an Angular-specific implementation agent (`angular-architect`) and 5 skills
 ## Installation
 
 ```
-/plugin marketplace add ROLIQUE/claude-plugins
-/plugin install angular-plugin@claude-plugins
+agy plugin install ROLIQUE/antigravity-plugins
+agy plugin install angular-plugin@antigravity-plugins
 ```
 
 `sdlc` core and `js-foundation` install automatically as dependencies.
@@ -120,7 +120,7 @@ The `angular-architect` agent applies the same detection for any install/script 
 
 ## Local override
 
-To customize per-project (e.g., Nx/Turborepo monorepo runners, Jest instead of Karma, custom builders), create `.claude/sdlc.local.yaml` in the project root and set `post_pipeline_checks` explicitly. Recognized top-level keys: `post_pipeline_checks` (replaces plugin defaults), `phase_command_overrides` (passed as context to agents), `extra_phase_prompts` (appends per-phase guidance), `skip_phases`, `convention_skills_extra`.
+To customize per-project (e.g., Nx/Turborepo monorepo runners, Jest instead of Karma, custom builders), create `.agents/sdlc.local.yaml` in the project root and set `post_pipeline_checks` explicitly. Recognized top-level keys: `post_pipeline_checks` (replaces plugin defaults), `phase_command_overrides` (passed as context to agents), `extra_phase_prompts` (appends per-phase guidance), `skip_phases`, `convention_skills_extra`.
 
 ## Coverage scope (v0.0.1)
 

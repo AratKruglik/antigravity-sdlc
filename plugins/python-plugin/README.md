@@ -65,8 +65,8 @@ No extra database phase. No frontend aspect.
 ## Installation
 
 ```bash
-/plugin marketplace add AratKruglik/claude-sdlc
-/plugin install python-plugin@sdlc-marketplace
+agy plugin install AratKruglik/antigravity-sdlc
+agy plugin install python-plugin@sdlc-marketplace
 # sdlc and python-foundation install as dependencies
 ```
 

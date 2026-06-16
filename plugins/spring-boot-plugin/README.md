@@ -39,7 +39,7 @@ Matches any project where at least one build file contains a Spring Boot marker:
 ## Installation
 
 ```
-/plugin install spring-boot-plugin@sdlc-marketplace
+agy plugin install spring-boot-plugin@sdlc-marketplace
 ```
 
 `sdlc` and `java-foundation` are pulled automatically as dependencies.

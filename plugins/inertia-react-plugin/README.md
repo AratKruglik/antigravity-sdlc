@@ -48,8 +48,8 @@ Post-pipeline (laravel-plugin):
 ## Installation
 
 ```bash
-/plugin marketplace add AratKruglik/claude-sdlc
-/plugin install inertia-react-plugin@sdlc-marketplace
+agy plugin install AratKruglik/antigravity-sdlc
+agy plugin install inertia-react-plugin@sdlc-marketplace
 # sdlc, js-foundation, react-plugin install as dependencies
 ```
 

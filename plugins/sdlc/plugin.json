@@ -1,13 +1,13 @@
 {
   "name": "sdlc",
-  "version": "1.0.1",
-  "description": "Universal SDLC orchestrator with stack provider auto-discovery. Owns the pipeline; framework plugins register themselves via stack.md profiles. Includes 5 cost-tiered default agents (BA Opus, Dev Sonnet, QA Sonnet with iteration cap, Sec Opus, Docs Haiku). Slash command: /sdlc:start \"<feature>\".",
+  "version": "1.0.0",
+  "description": "Universal SDLC orchestrator with stack provider auto-discovery. Owns the pipeline; framework plugins register themselves via stack.md profiles. Includes 5 cost-tiered default agents (BA Gemini 3 Pro, Dev Gemini 3.5 Flash, QA Gemini 3.5 Flash with iteration cap, Sec Gemini 3 Pro, Docs Gemini 3 Flash). Slash command: /sdlc:start \"<feature>\".",
   "author": {
     "name": "Oleksii Kruhlyk",
     "url": "https://github.com/AratKruglik"
   },
   "license": "MIT",
-  "homepage": "https://github.com/AratKruglik/claude-sdlc",
+  "homepage": "https://github.com/AratKruglik/antigravity-sdlc",
   "keywords": [
     "sdlc",
     "orchestrator",

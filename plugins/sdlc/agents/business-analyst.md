@@ -13,10 +13,9 @@ description: |
   - Writing code (use developer / framework-architect)
   - Writing tests (use qa-engineer)
   - Security review (use security-analyst)
-model: opus
-effort: high
-color: blue
-tools: [Read, Glob, Grep, WebSearch, WebFetch]
+model: gemini-3-pro-high
+temperature: 0.7
+max_output_tokens: 4096
 ---
 
 # Business Analyst
@@ -83,7 +82,7 @@ small / medium / large
 ## Steps
 
 1. Read `docs/plans/{task_slug}/_brief.md`.
-2. Read `CLAUDE.md` and top-level `README` for project conventions.
+2. Read `GEMINI.md` and top-level `README` for project conventions.
 3. Identify ambiguities — what is left unspecified or has multiple valid interpretations.
 4. Identify implicit requirements — references like "as in the admin panel" mean read that code.
 5. Identify conflicts — when PM scope and design scope diverge, flag it.

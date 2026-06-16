@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/ROLIQUE/claude-plugins/schemas/plugin.schema.json",
-  "title": "Claude Code Plugin Manifest",
-  "description": "Schema for plugins/<name>/.claude-plugin/plugin.json files in the SDLC marketplace.",
+  "$id": "https://github.com/ROLIQUE/antigravity-plugins/schemas/plugin.schema.json",
+  "title": "Google Antigravity Plugin Manifest",
+  "description": "Schema for plugins/<name>/plugin.json files in the SDLC marketplace.",
   "type": "object",
   "required": ["name", "version", "description"],
   "additionalProperties": true,
@@ -48,7 +48,7 @@
     },
     "dependencies": {
       "type": "array",
-      "description": "Native Claude Code dependencies — array of plugin names from the same marketplace, resolved at install time.",
+      "description": "Native Google Antigravity dependencies — array of plugin names from the same marketplace, resolved at install time.",
       "items": {
         "type": "string",
         "pattern": "^[a-z][a-z0-9-]*$"

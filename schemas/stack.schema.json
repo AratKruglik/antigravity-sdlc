@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/ROLIQUE/claude-plugins/schemas/stack.schema.json",
+  "$id": "https://github.com/ROLIQUE/antigravity-plugins/schemas/stack.schema.json",
   "title": "Stack Profile Frontmatter",
   "description": "Schema for the YAML frontmatter of plugins/<name>/stack.md files. The frontmatter is extracted from between the first --- markers and validated as a JSON object.",
   "type": "object",

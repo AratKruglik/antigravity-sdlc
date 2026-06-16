@@ -1,18 +1,17 @@
 ---
-description: Materialize stack-specific security-patterns.yaml and claude-security-guidance.md into the current project for the security-guidance plugin to pick up. Safe to re-run — preserves user-defined rules outside the managed block.
+description: Materialize stack-specific security-patterns.yaml and antigravity-security-guidance.md into the current project. Safe to re-run — preserves user-defined rules outside the managed block.
 argument-hint: "[--dry-run]"
 ---
 
 # /sdlc:security-init
 
-One-time (re-runnable) command that writes stack-specific security rules into `.agents/security-patterns.yaml` (or `.claude/`) and `.agents/claude-security-guidance.md` (or `.claude/`) in the current project. These files are read automatically by the security-guidance plugin — it reads from the project's `.agents/` or `.claude/` directory, never from plugin install paths.
+One-time (re-runnable) command that writes stack-specific security rules into `.agents/security-patterns.yaml` and `.agents/antigravity-security-guidance.md` in the current project.
 
-Run this command after installing security-guidance, when changing stack plugins, or when updating the marketplace (re-running regenerates the managed block only).
+Run this command after changing stack plugins or when updating the marketplace (re-running regenerates the managed block only).
 
 ## Prerequisites
 
-- `security-guidance` should be installed and active. If it is not installed, this command still materializes the files (they will be ready when the plugin is installed later) — it prints a reminder at the end.
-- The current directory must be a project root (contains `.agents/`, `.claude/` or the command creates `.agents/`).
+- The current directory must be a project root (contains `.agents/` or the command creates `.agents/`).
 
 ## Arguments
 
@@ -36,7 +35,7 @@ For each active plugin (sdlc core first, then js-foundation, then stack plugins 
 - Tag each rule with `_source: {plugin_name}` for traceability (written as a comment in the output).
 - De-duplicate by `rule_name` (first occurrence wins — higher-priority plugin wins).
 
-### 3. Merge into `.agents/security-patterns.yaml` (or `.claude/security-patterns.yaml`)
+### 3. Merge into `.agents/security-patterns.yaml`
 
 The target file uses a **managed block** delimited by:
 
@@ -75,9 +74,9 @@ patterns:
 # <<< sdlc-marketplace managed <<<
 ```
 
-### 4. Materialize `.agents/claude-security-guidance.md` (or `.claude/claude-security-guidance.md`)
+### 4. Materialize `.agents/antigravity-security-guidance.md`
 
-Derive stack-specific security guidance from the `security phase` `phase_prompts_injection` section of each active stack's `stack.md`. This gives the model-backed review layer context it would otherwise lack.
+Derive stack-specific security guidance from the `security phase` `phase_prompts_injection` section of each active stack's `stack.md`.
 
 Same managed-block pattern:
 
@@ -106,32 +105,20 @@ Content inside the block:
 
 If a stack's `stack.md` has no `security` injection block, skip that stack silently.
 
-### 5. Check security-guidance plugin presence
-
-Use `Glob ~/.gemini/config/plugins/**/security-guidance/plugin.json`. If not found, append:
-
-```text
-ℹ️  security-guidance plugin not detected. Install it to activate these rules:
-   /plugin install security-guidance@claude-plugins
-   /reload-plugins
-```
-
-### 6. Print summary
+### 5. Print summary
 
 ```
 ✅ /sdlc:security-init complete
 
 Files written:
-  .agents/security-patterns.yaml   — N rules (sources: sdlc, js-foundation, nextjs-plugin) (or fallback .claude/)
-  .agents/claude-security-guidance.md — N stacks (or fallback .claude/)
+  .agents/security-patterns.yaml   — N rules (sources: sdlc, js-foundation, nextjs-plugin)
+  .agents/antigravity-security-guidance.md — N stacks
 
 Rules by source:
   sdlc (core):         6 rules
   js-foundation:       4 rules
   nextjs-plugin:       4 rules
   Total:               14 rules
-
-Security-guidance plugin: ✅ active / ⚠️ not installed (see above)
 
 Re-run /sdlc:security-init after:
   - Installing a new stack plugin
@@ -149,4 +136,4 @@ In dry-run mode, print the full content that WOULD be written to each file (or t
 - Merge rules programmatically — do not invent rules that are not in the fragment files.
 - The managed block markers are the idempotency contract. Never remove content outside them.
 - Print the summary last. Be terse — counts and sources, no narrative.
-- If `.agents/` (or `.claude/`) directory does not exist in the project root, create `.agents/` before writing.
+- If `.agents/` directory does not exist in the project root, create `.agents/` before writing.

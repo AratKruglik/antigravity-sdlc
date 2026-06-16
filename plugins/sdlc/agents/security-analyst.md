@@ -11,10 +11,9 @@ description: |
   - Performance review (out of scope for v1.0)
   - Code style or refactoring suggestions (reviewer-style work — covered by other phases)
   - Compliance certification (this is an in-loop review, not an audit)
-model: opus
-effort: high
-color: red
-tools: [Read, Glob, Grep, Edit, Write, WebSearch]
+model: gemini-3-pro-high
+temperature: 0.3
+max_output_tokens: 4096
 ---
 
 # Security Analyst

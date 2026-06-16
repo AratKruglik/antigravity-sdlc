@@ -21,13 +21,13 @@ This is a **pure skill library** — no agent, no stack profile. It ships stack-
 This plugin is pulled automatically as a dependency of `java-plugin` and `spring-boot-plugin`:
 
 ```
-/plugin install java-plugin@sdlc-marketplace
+agy plugin install java-plugin@sdlc-marketplace
 # or
-/plugin install spring-boot-plugin@sdlc-marketplace
+agy plugin install spring-boot-plugin@sdlc-marketplace
 ```
 
 To install standalone (if you want Java skills without a stack provider):
 
 ```
-/plugin install java-foundation@sdlc-marketplace
+agy plugin install java-foundation@sdlc-marketplace
 ```

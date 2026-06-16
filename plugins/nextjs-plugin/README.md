@@ -28,7 +28,7 @@ Adds a Next.js-specific implementation agent (`nextjs-architect`) and 5 skills c
 
 ## Cross-plugin skill reuse
 
-`nextjs-plugin` declares `dependencies: ["sdlc", "nodejs-plugin"]` in `plugin.json` — Claude Code auto-installs `nodejs-plugin` when you install this. The stack profile references skills from both plugins in `convention_skills`:
+`nextjs-plugin` declares `dependencies: ["sdlc", "nodejs-plugin"]` in `plugin.json` — Google Antigravity auto-installs `nodejs-plugin` when you install this. The stack profile references skills from both plugins in `convention_skills`:
 
 - `js-foundation:typescript-patterns` — strict TypeScript discipline.
 - `js-foundation:npm-patterns` — package manager detection, semver, lockfile hygiene.
@@ -41,8 +41,8 @@ Adds a Next.js-specific implementation agent (`nextjs-architect`) and 5 skills c
 ## Installation
 
 ```
-/plugin marketplace add ROLIQUE/claude-plugins
-/plugin install nextjs-plugin@claude-plugins
+agy plugin install ROLIQUE/antigravity-plugins
+agy plugin install nextjs-plugin@antigravity-plugins
 ```
 
 `sdlc` core and `nodejs-plugin` install automatically as dependencies.
@@ -98,7 +98,7 @@ The `nextjs-architect` agent applies the same detection for any install/script i
 
 ## Local override
 
-To customize per-project (e.g., monorepo runners like Nx/Turborepo, custom test scripts, skip security phase if external SAST handles it), create `.claude/sdlc.local.yaml` in the project root and set `post_pipeline_checks` explicitly. Recognized top-level keys: `post_pipeline_checks` (replaces plugin defaults), `phase_command_overrides` (passed as context to agents), `extra_phase_prompts` (appends per-phase guidance), `skip_phases`, `convention_skills_extra`.
+To customize per-project (e.g., monorepo runners like Nx/Turborepo, custom test scripts, skip security phase if external SAST handles it), create `.agents/sdlc.local.yaml` in the project root and set `post_pipeline_checks` explicitly. Recognized top-level keys: `post_pipeline_checks` (replaces plugin defaults), `phase_command_overrides` (passed as context to agents), `extra_phase_prompts` (appends per-phase guidance), `skip_phases`, `convention_skills_extra`.
 
 ## Coverage scope (v0.0.1)
 

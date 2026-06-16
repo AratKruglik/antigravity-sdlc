@@ -1,6 +1,6 @@
 # fastapi-plugin
 
-FastAPI backend + database stack provider for the `claude-sdlc` marketplace.
+FastAPI backend + database stack provider for the `antigravity-sdlc` marketplace.
 
 This is an **API-only** plugin. FastAPI does not render server-side HTML templates. SPA frontends (Vue, React) connect to the FastAPI application via the API contract that `fastapi-architect` designs and documents. The frontend aspect is handled by whichever frontend plugin is active (`vue-plugin`, `react-plugin`, etc.).
 
@@ -42,8 +42,8 @@ Also reuses:
 ## Installation
 
 ```bash
-# From the claude-sdlc marketplace root
-claude plugin install fastapi-plugin
+# From the antigravity-sdlc marketplace root
+agy plugin install fastapi-plugin
 ```
 
 The plugin activates automatically when `fastapi` is found in `pyproject.toml` or `requirements.txt`.

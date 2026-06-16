@@ -18,7 +18,7 @@ description: |
 
 # Node.js Backend Conventions
 
-This skill consolidates idioms that hold across most Node.js backend projects (Express, Fastify, Koa, plain Node). Follow them when adding code; if a project's `CLAUDE.md` contradicts a convention here, the project wins.
+This skill consolidates idioms that hold across most Node.js backend projects (Express, Fastify, Koa, plain Node). Follow them when adding code; if a project's `GEMINI.md` contradicts a convention here, the project wins.
 
 ## Project layout
 

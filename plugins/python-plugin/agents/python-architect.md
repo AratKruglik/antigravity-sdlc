@@ -13,10 +13,9 @@ description: |
   - Django/FastAPI/Flask web applications (django-architect/fastapi-architect/flask-architect handle those)
   - Test writing (qa-engineer)
   - Database migrations (no extra DB phase for plain Python — use the ORM directly)
-model: sonnet
-effort: medium
-color: blue
-tools: [Read, Glob, Grep, Edit, Write, Bash]
+model: gemini-3.5-flash
+temperature: 0.1
+max_output_tokens: 8192
 ---
 
 # Python Architect

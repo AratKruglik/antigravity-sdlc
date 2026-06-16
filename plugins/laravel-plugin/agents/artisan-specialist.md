@@ -11,10 +11,9 @@ description: |
   - Application logic (laravel-architect)
   - Test writing (qa-engineer)
   - Optimization of pre-existing tables not touched by the current feature
-model: sonnet
-effort: low
-color: orange
-tools: [Read, Glob, Grep, Edit, Write, Bash, mcp__laravel-boost__artisan, mcp__laravel-boost__schema]
+model: gemini-3.5-flash
+temperature: 0.1
+max_output_tokens: 4096
 ---
 
 # Artisan Specialist (Database Phase)

@@ -1,42 +1,135 @@
-# SDLC Marketplace for Claude Code
+# SDLC Marketplace for Google Antigravity
 
 Multi-stack AI-assisted SDLC pipelines built on the **Stack Provider Pattern**: a single core orchestrator runs the pipeline, framework plugins register themselves via declarative `stack.md` profiles. No core overrides, no slot registries, no copy-paste between stacks.
 
-**v1.0.3** — 26 plugins: 1 core + 5 shared libs + 7 JS/TS stacks + 5 PHP/Laravel/Symfony stacks + 3 Java/.NET stacks + **5 Python stacks (new)**. Cost-optimized: model tiering + `effort` per-subagent. Dynamic workflow recipes + guaranteed per-agent model enforcement.
+A monorepo containing the core SDLC pipeline orchestrator along with 23 shared foundation and stack provider plugins. Cost-optimized: model tiering + custom agent parameters (temperature, max output tokens). Dynamic workflow recipes + guaranteed per-agent model enforcement.
 
 ---
 
-## Quickstart
+## Installation
+
+We provide a streamlined installation script that automatically resolves plugin dependencies (e.g., automatically installing `php-foundation` when you install `laravel-plugin`).
+
+### Option A: One-Liner Installation (from GitHub)
+
+You don't need to clone the repository manually. You can install the core orchestrator directly:
 
 ```bash
-# 1. Add the marketplace
-/plugin marketplace add AratKruglik/claude-sdlc
+curl -fsSL https://raw.githubusercontent.com/AratKruglik/antigravity-sdlc/main/install.sh | bash -s -- sdlc
+```
 
-# 2. Install the stack plugin you need (sdlc core is installed automatically as a dependency)
-/plugin install laravel-plugin@sdlc-marketplace
-# or for JS/TS projects:
-/plugin install nodejs-plugin@sdlc-marketplace   # Express/Fastify/Koa
-/plugin install nestjs-plugin@sdlc-marketplace   # NestJS
-/plugin install nextjs-plugin@sdlc-marketplace   # Next.js (full-stack)
-/plugin install react-plugin@sdlc-marketplace    # React SPA
-/plugin install vue-plugin@sdlc-marketplace      # Vue 3 SPA
-/plugin install angular-plugin@sdlc-marketplace  # Angular 18-21
-/plugin install react-native-plugin@sdlc-marketplace  # React Native / Expo
-# or for Python projects:
-/plugin install django-plugin@sdlc-marketplace   # Django + DRF
-/plugin install fastapi-plugin@sdlc-marketplace  # FastAPI + SQLAlchemy 2.0
-/plugin install flask-plugin@sdlc-marketplace    # Flask + Flask-Migrate
-/plugin install python-plugin@sdlc-marketplace   # Plain Python (CLI/library/scripts)
+To install the orchestrator along with specific stack plugins in one command:
 
-# 3. Verify
+```bash
+curl -fsSL https://raw.githubusercontent.com/AratKruglik/antigravity-sdlc/main/install.sh | bash -s -- sdlc,laravel-plugin,nextjs-plugin
+```
+
+### Option B: Local Clone Installation
+
+If you prefer to clone the repository first:
+
+1. **Clone this repository:**
+   ```bash
+   git clone https://github.com/AratKruglik/antigravity-sdlc.git
+   cd antigravity-sdlc
+   ```
+
+2. **Run the local installer:**
+   ```bash
+   # Installs the core orchestrator:
+   ./install.sh sdlc
+   
+   # Or install with specific stack plugins:
+   ./install.sh sdlc,laravel-plugin
+   ```
+
+### Option C: Local Development (via Symlinks)
+
+If you are developing custom stack plugins or want to edit and test changes without running the installer every time:
+
+```bash
+# Symlink plugins directly into your global Antigravity config directory:
+mkdir -p ~/.gemini/config/plugins
+
+# Link the core orchestrator:
+ln -s ~/Projects/antigravity-sdlc/plugins/sdlc ~/.gemini/config/plugins/sdlc
+
+# Link any stack providers you want to test (e.g., nodejs-plugin and its foundation js-foundation):
+ln -s ~/Projects/antigravity-sdlc/plugins/js-foundation ~/.gemini/config/plugins/js-foundation
+ln -s ~/Projects/antigravity-sdlc/plugins/nodejs-plugin ~/.gemini/config/plugins/nodejs-plugin
+```
+
+Alternatively, for workspace-isolated testing, symlink them to your target project's `.agents/plugins/` folder.
+
+---
+
+## Installing Additional Plugins Later
+
+Once the core `sdlc` plugin is installed, you can easily add more stack plugins directly from your active Antigravity session using the `/sdlc:install` slash command.
+
+```
+/sdlc:install nextjs-plugin
+/sdlc:install django-plugin,python-plugin
+```
+
+This command automatically downloads the selected plugins, resolves their dependencies, and runs `agy plugin install` under the hood.
+
+---
+
+## Verifying the Setup
+
+Verify that all plugins were correctly loaded:
+
+```
 /sdlc:doctor
 /sdlc:list-stacks
+```
 
-# 4. Run
+Once verified, you can run the pipeline on any project:
+
+```
 /sdlc:start "Add subscription billing with Stripe"
 ```
 
 ---
+
+## Available Plugins & Installation Reference
+
+The following table lists all 24 plugins available in the marketplace. You can install any plugin:
+1. **Via one-liner:** `curl -fsSL https://raw.githubusercontent.com/AratKruglik/antigravity-sdlc/main/install.sh | bash -s -- <plugin-name>`
+2. **Via active session command:** `/sdlc:install <plugin-name>`
+
+*Note: Dependencies (such as foundation libraries) are resolved and installed automatically.*
+
+| Plugin Name | Category | Description | One-Liner Installer Argument | Slash Command |
+|---|---|---|---|---|
+| **`sdlc`** | Core Orchestrator | Core SDLC pipeline orchestrator and 5 cost-tiered base agents. | `sdlc` | `/sdlc:install sdlc` |
+| **`js-foundation`** | Shared Foundation | Shared JavaScript/TypeScript standards and npm package tooling. | `js-foundation` | `/sdlc:install js-foundation` |
+| **`php-foundation`** | Shared Foundation | Shared PHP PSR standards, Composer tooling, and PHPUnit/Pest testing. | `php-foundation` | `/sdlc:install php-foundation` |
+| **`csharp-foundation`**| Shared Foundation | Shared C# conventions, dotnet CLI tooling, NuGet, and testing. | `csharp-foundation` | `/sdlc:install csharp-foundation`|
+| **`java-foundation`** | Shared Foundation | Shared Java standards, Maven/Gradle wrappers, and JUnit/Mockito. | `java-foundation` | `/sdlc:install java-foundation` |
+| **`python-foundation`**| Shared Foundation | Shared Python PEP 8 standards, dependency management, and pytest. | `python-foundation` | `/sdlc:install python-foundation`|
+| **`nodejs-plugin`** | Backend Stack | Express, Fastify, and Koa backend stack. | `nodejs-plugin` | `/sdlc:install nodejs-plugin` |
+| **`nestjs-plugin`** | Backend Stack | Opinionated NestJS REST, ORM, GraphQL, and Microservices. | `nestjs-plugin` | `/sdlc:install nestjs-plugin` |
+| **`nextjs-plugin`** | Full-Stack | Next.js App Router, Server Actions, and React components. | `nextjs-plugin` | `/sdlc:install nextjs-plugin` |
+| **`react-plugin`** | Frontend Stack | React SPA layouts, routing, custom hooks, and RTL testing. | `react-plugin` | `/sdlc:install react-plugin` |
+| **`vue-plugin`** | Frontend Stack | Vue 3 Composition API, Pinia state management, and Vitest. | `vue-plugin` | `/sdlc:install vue-plugin` |
+| **`angular-plugin`** | Frontend Stack | Angular signals, standalones, NgRx state, and router. | `angular-plugin` | `/sdlc:install angular-plugin` |
+| **`react-native-plugin`**| Mobile Stack | Expo and bare React Native mobile layouts, router, and navigation. | `react-native-plugin` | `/sdlc:install react-native-plugin`|
+| **`laravel-plugin`** | Backend + DB | Laravel framework, Artisan migrations, and Eloquent models. | `laravel-plugin` | `/sdlc:install laravel-plugin` |
+| **`symfony-plugin`** | Backend + DB | Symfony framework, Doctrine ORM mappings, and migrations. | `symfony-plugin` | `/sdlc:install symfony-plugin` |
+| **`inertia-vue-plugin`**| Frontend Aspect | Inertia.js Vue 3 adapter for server-driven Laravel frontends. | `inertia-vue-plugin` | `/sdlc:install inertia-vue-plugin`|
+| **`inertia-react-plugin`**| Frontend Aspect | Inertia.js React adapter for server-driven Laravel frontends. | `inertia-react-plugin` | `/sdlc:install inertia-react-plugin`|
+| **`aspnet-core-plugin`**| Backend + DB | ASP.NET Core Minimal APIs and Entity Framework Core migrations. | `aspnet-core-plugin` | `/sdlc:install aspnet-core-plugin`|
+| **`java-plugin`** | Backend Stack | Plain Java libraries, CLI tools, and non-framework services. | `java-plugin` | `/sdlc:install java-plugin` |
+| **`spring-boot-plugin`**| Backend + DB | Spring Boot REST services, Spring Data JPA, and Flyway/Liquibase. | `spring-boot-plugin` | `/sdlc:install spring-boot-plugin`|
+| **`python-plugin`** | Backend Stack | Plain Python libraries, console scripts, and data pipelines. | `python-plugin` | `/sdlc:install python-plugin` |
+| **`django-plugin`** | Backend + DB | Django framework, Django REST Framework APIs, and migrations. | `django-plugin` | `/sdlc:install django-plugin` |
+| **`fastapi-plugin`** | Backend + DB | FastAPI async API endpoints and Alembic migrations. | `fastapi-plugin` | `/sdlc:install fastapi-plugin` |
+| **`flask-plugin`** | Backend + DB | Flask app blueprints, SQLAlchemy, and Flask-Migrate database. | `flask-plugin` | `/sdlc:install flask-plugin` |
+
+---
+
 
 ## How It Works: Stack Provider Pattern
 
@@ -81,7 +174,7 @@ Each plugin has a `stack.md` file where it describes itself: *"I handle projects
 
 **Step by step:**
 
-1. Scan `~/.claude/plugins/cache/**/stack.md` — collect all registered profiles.
+1. Scan `~/.gemini/config/plugins/**/stack.md` — collect all registered profiles.
 2. Each profile checks its `detect` rules: is there a `package.json`? Does it contain `react`? Is there a `manage.py`? And so on.
 3. From those that matched — the profile with the **highest priority number wins**.
 
@@ -96,285 +189,65 @@ Each plugin has a `stack.md` file where it describes itself: *"I handle projects
 
 Result: **backend** → `laravel-architect`, **frontend** → `inertia-react-architect` (beats plain react at 175 vs 150).
 
-**Why numbers, not "first match"?**
-
-Some technologies are supersets of others. Next.js is React + a server. NestJS is Node.js + a DI framework. When multiple plugins recognize the same project, the **more specialized one should win** — not whichever was installed first. The numbers encode that specialization:
-
-```
-0   → vanilla fallback (always matches, always loses)
-100 → base stacks (laravel, django, java, python...)
-150 → more specific (spring-boot, react SPA, vue...)
-175 → super-stacks (inertia = laravel + react combined)
-200 → even more specific (nestjs, angular...)
-250 → full-stack (nextjs = backend + frontend in one)
-300 → mobile (react-native — its own ecosystem)
-```
-
-**Aspects** let one project run multiple specialist agents in parallel. `laravel-plugin` covers `backend` + `database` aspects; `inertia-react-plugin` covers `frontend`. So a Laravel + Inertia project gets three agents — `laravel-architect`, `artisan-specialist`, and `inertia-react-architect` — each focused on its own slice, dispatched in canonical order: `database → backend → frontend`.
-
-### Stack Priority Table
-
-| Priority | Plugin | Aspects | Detect |
-|---|---|---|---|
-| 0 | `vanilla` (sdlc) | — | `*` (always matches) |
-| 100 | `nodejs-plugin` | backend | `package.json` + express/fastify/koa/... |
-| 100 | `laravel-plugin` | backend, database | `composer.json` + `laravel/framework` |
-| 100 | `symfony-plugin` | backend, database | `composer.json` + `symfony/framework-bundle` |
-| 100 | `java-plugin` | backend | `pom.xml` or `build.gradle` or `build.gradle.kts` |
-| 100 | `aspnet-core-plugin` | backend, database | `appsettings.json` |
-| 100 | `python-plugin` | backend | `pyproject.toml` or `requirements.txt` or `setup.py` or `Pipfile` |
-| 150 | `react-plugin` | frontend | `package.json` + `react` (without `next`, `react-native`) |
-| 150 | `vue-plugin` | frontend | `package.json` + `vue` |
-| 150 | `spring-boot-plugin` | backend | any build file + `spring-boot` marker |
-| 150 | `django-plugin` | backend, database | `manage.py` or Django in `pyproject.toml`/`requirements.txt` |
-| 150 | `fastapi-plugin` | backend, database | `fastapi` in `pyproject.toml`/`requirements.txt` |
-| 150 | `flask-plugin` | backend, database | `Flask` in `pyproject.toml`/`requirements.txt` |
-| 175 | `inertia-vue-plugin` | frontend | `package.json` + `@inertiajs/vue3` |
-| 175 | `inertia-react-plugin` | frontend | `package.json` + `@inertiajs/react` |
-| 200 | `nestjs-plugin` | backend, database | `package.json` + `@nestjs/core` |
-| 200 | `angular-plugin` | frontend | `package.json` + `@angular/core` |
-| 250 | `nextjs-plugin` | backend, frontend | `package.json` + `next` |
-| 300 | `react-native-plugin` | frontend | `package.json` + `react-native` |
-
----
-
-## Pipeline Phases
-
-### Standard 5-phase pipeline
-
-```
-Phase 1: BA → business-analyst (opus/high)
-          ↓ output: docs/plans/{slug}/01-business-analysis.md
-Phase 2: Dev → [stack agent] (sonnet/medium)
-          ↓ output: docs/plans/{slug}/02-development.md
-Phase 3: QA → qa-engineer (sonnet/medium, max 3 attempts)
-          ↓ output: docs/plans/{slug}/03-qa.md
-Phase 4: Security → security-analyst (opus/high)
-          ↓ output: docs/plans/{slug}/04-security.md
-Phase 5: Docs → document-writer (haiku/low)
-          ↓ output: PR on GitHub
-```
-
-### Example: Laravel (6 phases)
-
-```
-Phase 1: BA → business-analyst
-Phase 2: Dev/backend  → laravel-architect    (aspect=backend)
-Phase 3: Dev/database → artisan-specialist   (extra phase after backend)
-Phase 4: QA → qa-engineer
-Phase 5: Security → security-analyst
-Phase 6: Docs → document-writer
-```
-
-### Per-aspect dispatch (multi-framework projects)
-
-For a project with a Node.js backend and a React frontend:
-
-- Phase 2/backend → `node-architect`
-- Phase 2/frontend → `react-architect` (separate run)
-
-Aspects are dispatched in canonical order: `database → backend → frontend → testing`.
-
----
-
-## Commands
-
-| Command | Purpose |
-|---|---|
-| `/sdlc:start "feature"` | Run the full 5-phase pipeline |
-| `/sdlc:batch "task1" "task2"` | Run pipelines in parallel for multiple tasks (isolated worktrees) |
-| `/sdlc:list-stacks` | Show detected stack profiles and their priorities |
-| `/sdlc:doctor` | Preflight check: dependency check, stack detection, cost baseline |
-| `/sdlc:security-init` | Materialize security-patterns.yaml for the security-guidance plugin |
-
----
-
-## Dynamic Workflow Recipes
-
-A **workflow recipe** is a YAML file that declares which pipeline phases to run. Instead of always running all 5 phases, the orchestrator selects the right recipe automatically — or you can pick one explicitly.
-
-### Built-in recipes
-
-| Recipe | Phases | Auto-selects when |
-|---|---|---|
-| `default` | BA → Dev → QA → Security → Docs | any task |
-| `bugfix` | Dev → QA → Security → Docs | arguments contain `fix`, `bug`, `issue`; ≤500 LOC |
-| `hotfix` | Dev → QA → Security → Docs | arguments contain `hotfix`, `urgent`, `emergency`; ≤200 LOC; $0.60 cost cap |
-| `refactor` | Dev → QA → Security → Docs | arguments contain `refactor`, `cleanup`, `extract` |
-| `docs-only` | Docs | arguments contain `docs`, `readme`, `changelog`; $0.10 cost cap |
-
-### Using a specific recipe
-
-```bash
-/sdlc:start --workflow=hotfix "Fix null pointer in payment handler"
-/sdlc:start --workflow=docs-only "Update README for new auth flow"
-```
-
-### Auto-selection
-
-If no `--workflow` flag is given, the orchestrator checks each recipe's `match` rules against your `$ARGUMENTS` in priority order. First match wins; `default` always matches as the fallback.
-
-### Custom recipes
-
-Place a YAML file at `~/.claude/plugins/cache/sdlc/workflows/my-recipe.yaml`:
-
-```yaml
-name: my-recipe
-description: Internal audit workflow — skip BA, security required.
-phases:
-  - development
-  - qa
-  - security
-caps:
-  max_total_cost_usd: 1.00
-```
-
-```bash
-/sdlc:start --workflow=my-recipe "Audit user permissions module"
-```
-
-Recipe files are validated against `schemas/workflow.schema.json` on load. Invalid recipes halt with an error listing each violation.
-
 ---
 
 ## Model Enforcement
 
-Every agent in the SDLC pipeline declares its `model:` tier in frontmatter. The pipeline guarantees that tier is actually used — regardless of the session-level default model.
+Every agent in the SDLC pipeline declares its `model:` in frontmatter. The pipeline guarantees that model is actually used — regardless of the session-level default model.
 
 **Two enforcement layers:**
 
-1. **Orchestrator (Layer 1)** — Step 3b-3 in the pipeline explicitly reads the agent's `.md` frontmatter, resolves the tier to a full model ID, and passes it in the `Agent()` dispatch call.
-
+1. **Orchestrator (Layer 1)** — Step 3b-3 in the pipeline explicitly reads the agent's `.md` frontmatter, resolves the tier or model ID, and passes it in the `Agent()` dispatch call.
 2. **PreToolUse hook (Layer 2)** — `plugins/sdlc/hooks/enforce-agent-model.sh` intercepts every `Agent` tool call at the harness level. It reads the agent's declared `model:`, compares it with the requested model, and corrects it via `updatedInput` if they differ. This fires even if the orchestrator misses the step.
 
-The hook is registered in `plugins/sdlc/hooks/hooks.json` and activates automatically when the plugin is installed via the marketplace — no manual `settings.json` changes needed.
+The hook is registered in `plugins/sdlc/hooks/hooks.json` and activates automatically when the plugin is installed — no manual `settings.json` changes needed.
 
-**Tier → model ID mapping:**
+**Model ID / Tier mapping:**
 
-| Tier | Model ID |
+| Tier / Shorthand | Model ID |
 |---|---|
-| `opus` | `claude-opus-4-8` |
-| `sonnet` | `claude-sonnet-4-6` |
-| `haiku` | `claude-haiku-4-5-20251001` |
+| `pro-high` | `gemini-3-pro-high` |
+| `flash-med` | `gemini-3.5-flash` |
+| `flash-low` | `gemini-3-flash` |
+
+*Note: You can also specify the direct model ID (e.g. `model: gemini-3.5-flash`) in the agent frontmatter.*
 
 ---
 
-## Cost Optimization: model + effort
+## Agent Configuration: temperature + max_output_tokens
 
-### Why `model` + `effort` instead of `temperature`
+We configure agent behavior and token budgets directly using `model`, `temperature`, and `max_output_tokens` in the frontmatter of each agent. This ensures high determinism for code generation and sufficient creativity for requirements analysis.
 
-Claude Code subagent frontmatter supports:
+### Standard Configuration Table
 
-- `model` — `opus` / `sonnet` / `haiku` / full model ID / `inherit`
-- `effort` — `low` / `medium` / `high` / `xhigh` / `max` — **overrides the session-level reasoning budget**
-
-`temperature` is **not configurable per-subagent** in Claude Code. We control cost exclusively through `model` + `effort`.
-
-### model+effort table for all agents
-
-| Agent | Plugin | model | effort | Rationale |
-|---|---|---|---|---|
-| `business-analyst` | sdlc | `opus` | `high` | Requirement errors cascade through 5 phases; small token volume, maximum leverage |
-| `security-analyst` | sdlc | `opus` | `high` | Non-obvious vulnerabilities (TOCTOU, JWT confusion, SSRF) require deep reasoning |
-| `developer` | sdlc | `sonnet` | `medium` | Vanilla fallback — execution against a clear spec |
-| `qa-engineer` | sdlc | `sonnet` | `medium` | Tests against clear criteria; hard 3-attempt cap keeps cost in check |
-| `document-writer` | sdlc | `haiku` | `low` | Structured output from known facts; ~10× cheaper than Opus |
-| `laravel-architect` | laravel | `sonnet` | `medium` | Laravel idioms + Inertia/Vue |
-| `artisan-specialist` | laravel | `sonnet` | `low` | Mechanical DB work: column types, indexes, factories |
-| `symfony-architect` | symfony | `sonnet` | `medium` | Attribute routing, controllers-as-services, DI, Voters, Serializer, Messenger, Twig |
-| `doctrine-specialist` | symfony | `sonnet` | `low` | Doctrine entity mappings, generated migrations, fixtures, schema verification |
-| `node-architect` | nodejs | `sonnet` | `medium` | Express/Fastify — implementation driven by clear Node.js idioms |
-| `nest-architect` | nestjs | `sonnet` | `medium` | Convention skills carry per-domain depth |
-| `nextjs-architect` | nextjs | `sonnet` | `medium` | RSC/Client patterns well-defined by spec and convention skills |
-| `react-architect` | react | `sonnet` | `medium` | React conventions and state/routing skills |
-| `vue-architect` | vue | `sonnet` | `medium` | Vue 3/2 detection + convention skills |
-| `angular-architect` | angular | `sonnet` | `medium` | Angular standalone/NgModule, signals, NgRx |
-| `inertia-vue-architect` | inertia-vue | `sonnet` | `medium` | Inertia.js + Vue 3 server-driven pages, no client-side router |
-| `inertia-react-architect` | inertia-react | `sonnet` | `medium` | Inertia.js + React server-driven pages, no React Router |
-| `rn-architect` | react-native | `sonnet` | `medium` | Expo/bare + iOS/Android axes |
-| `java-architect` | java | `sonnet` | `medium` | Plain Java — records, domain objects, build tooling |
-| `spring-boot-architect` | spring-boot | `sonnet` | `medium` | Spring Boot — controllers, JPA, migrations, Spring Security |
-| `aspnet-core-architect` | aspnet-core | `sonnet` | `medium` | Minimal API / MVC, DTOs, FluentValidation, DI, authorization, HTTPS/HSTS |
-| `efcore-specialist` | aspnet-core | `sonnet` | `low` | EF Core Fluent API config, column types, indexes, migration generation and verification |
-
-> `effort: high` on Opus is the most expensive combination. That's why only 2 leverage agents use it (BA and Security) — where reasoning quality directly impacts every downstream phase.
-
-### Estimated cost for a medium feature
-
-| Phase | Agent | Cost |
-|---|---|---|
-| BA | opus/high | ~$0.25 |
-| Dev | sonnet/medium | ~$0.60 |
-| QA | sonnet/medium (≤3 attempts) | ~$0.30 |
-| Security | opus/high | ~$0.25 |
-| Docs | haiku/low | ~$0.07 |
-| **Total** | | **~$1.47** |
-
-### Additional cost levers
-
-- **Skip-rules:** typo-fix, whitespace-only, config-only, lightweight-no-db — skip unnecessary phases automatically.
-- **QA hard cap:** max 3 attempts to fix failing tests, then STOP.
-- **Compact handoffs:** each agent returns a ≤2–3K-token summary.
-- **Prompt caching:** stable system prompts (no timestamps, slugs, or dynamic content) → ~60% cache hit rate on Sonnet.
-
----
-
-## Available Plugins
-
-| Plugin | Type | Stack / Technology |
-|---|---|---|
-| `sdlc` | Core | Pipeline orchestrator + 5 default agents |
-| `js-foundation` | Shared lib | TypeScript + npm patterns (no stack profile) |
-| `php-foundation` | Shared lib | PHP 8 conventions + Composer + PHPUnit/Pest (no stack profile) |
-| `java-foundation` | Shared lib | Java conventions + Maven/Gradle + JVM testing (no stack profile) |
-| `csharp-foundation` | Shared lib | C# conventions + dotnet CLI/NuGet + xUnit/Moq/FluentAssertions (no stack profile) |
-| `nodejs-plugin` | Stack provider | Express / Fastify / Koa / plain Node.js |
-| `nestjs-plugin` | Stack provider | NestJS + TypeORM/Prisma/Mongoose |
-| `nextjs-plugin` | Stack provider | Next.js App Router (full-stack) |
-| `react-plugin` | Stack provider | React SPA (Vite/Webpack) |
-| `vue-plugin` | Stack provider | Vue 3 SPA |
-| `angular-plugin` | Stack provider | Angular 18-21 |
-| `react-native-plugin` | Stack provider | React Native / Expo |
-| `inertia-vue-plugin` | Stack provider | Inertia.js + Vue 3 (Laravel backend) |
-| `inertia-react-plugin` | Stack provider | Inertia.js + React (Laravel backend) |
-| `laravel-plugin` | Stack provider | Laravel + Eloquent + Artisan + Inertia |
-| `symfony-plugin` | Stack provider | Symfony + Doctrine ORM + Twig / API Platform |
-| `java-plugin` | Stack provider | Plain Java (Maven/Gradle, no web framework) |
-| `spring-boot-plugin` | Stack provider | Spring Boot REST + Spring Data JPA + Flyway/Liquibase |
-| `aspnet-core-plugin` | Stack provider | ASP.NET Core Web API + EF Core (.NET 6+) |
-
-### Optional external dependencies
-
-| Plugin | Source | Role |
-|---|---|---|
-| `superpowers` | `obra/superpowers` | Adds brainstorming to BA, TDD to QA, verification-before-completion to architects. Pipeline degrades gracefully without it. |
-| `security-guidance` | `anthropics/claude-plugins-official` | Hooks-based in-session security review: per-edit pattern match, end-of-turn diff review. The OWASP security phase runs fully without it. |
-
----
-
-## Stack Composition Examples
-
-| Project | Profile | Development dispatch |
-|---|---|---|
-| Laravel + Vue SPA (Inertia) | laravel (100) + inertia-vue (175) | laravel-architect (backend) + artisan-specialist (db) + inertia-vue-architect (frontend) |
-| Laravel + React SPA (Inertia) | laravel (100) + inertia-react (175) | laravel-architect (backend) + artisan-specialist (db) + inertia-react-architect (frontend) |
-| Symfony + Doctrine | symfony (100) | symfony-architect (backend) + doctrine-specialist (db) |
-| Express + React | nodejs (100) + react (150) | node-architect (backend) + react-architect (frontend) |
-| NestJS + Angular | nestjs (200) + angular (200) | nest-architect (backend) + angular-architect (frontend) |
-| Next.js (full-stack) | nextjs (250) | nextjs-architect (owns backend + frontend) |
-| Expo mobile | react-native (300) | rn-architect (frontend) |
-| Vanilla Node.js | nodejs (100) | node-architect |
-| Plain Java (no framework) | java (100) | java-architect |
-| Spring Boot REST API | spring-boot (150) | spring-boot-architect |
-| ASP.NET Core Web API + EF Core | aspnet-core (100) | aspnet-core-architect (backend) + efcore-specialist (db) |
-| ASP.NET Core + React SPA | aspnet-core (100) + react (150) | aspnet-core-architect (backend) + efcore-specialist (db) + react-architect (frontend) |
-| Unknown stack | vanilla (0) | developer (fallback) |
+| Agent | Plugin | model | temperature | max_output_tokens | Rationale |
+|---|---|---|---|---|---|
+| `business-analyst` | sdlc | `gemini-3-pro-high` | `0.7` | `4096` | Allows creative exploration of edge cases and trial periods |
+| `security-analyst` | sdlc | `gemini-3-pro-high` | `0.3` | `4096` | Logic-oriented threat modeling and vulnerability scanning |
+| `developer` | sdlc | `gemini-3.5-flash` | `0.1` | `8192` | Highly deterministic, correct code generation with large output space |
+| `qa-engineer` | sdlc | `gemini-3.5-flash` | `0.1` | `4096` | Deterministic test execution and verification |
+| `document-writer` | sdlc | `gemini-3-flash` | `0.2` | `4096` | Factual, structured documentation generation |
+| `laravel-architect` | laravel | `gemini-3.5-flash` | `0.1` | `8192` | Laravel idioms + Inertia/Vue code generation |
+| `artisan-specialist` | laravel | `gemini-3.5-flash` | `0.1` | `4096` | Database schemas, factories, and migrations |
+| `symfony-architect` | symfony | `gemini-3.5-flash` | `0.1` | `8192` | Symfony REST controllers and dependency injection |
+| `doctrine-specialist` | symfony | `gemini-3.5-flash` | `0.1` | `4096` | Doctrine entity mappings and migrations |
+| `node-architect` | nodejs | `gemini-3.5-flash` | `0.1` | `8192` | Express/Fastify backend code generation |
+| `nest-architect` | nestjs | `gemini-3.5-flash` | `0.1` | `8192` | NestJS controllers and module wiring |
+| `nextjs-architect` | nextjs | `gemini-3.5-flash` | `0.1` | `8192` | React Server Components and App Router |
+| `react-architect` | react | `gemini-3.5-flash` | `0.1` | `8192` | React SPA layouts and custom hooks |
+| `vue-architect` | vue | `gemini-3.5-flash` | `0.1` | `8192` | Vue 3 Composition API code generation |
+| `angular-architect` | angular | `gemini-3.5-flash` | `0.1` | `8192` | Angular standalone components and signals |
+| `rn-architect` | react-native | `gemini-3.5-flash` | `0.1` | `8192` | Expo mobile layouts and mobile navigation |
+| `java-architect` | java | `gemini-3.5-flash` | `0.1` | `8192` | Plain Java core domain classes |
+| `spring-boot-architect` | spring-boot | `gemini-3.5-flash` | `0.1` | `8192` | Spring Boot controllers and REST API bindings |
+| `aspnet-core-architect` | aspnet-core | `gemini-3.5-flash` | `0.1` | `8192` | Minimal APIs and dependency injection |
+| `efcore-specialist` | aspnet-core | `gemini-3.5-flash` | `0.1` | `4096` | EF Core Fluent API column mappings |
 
 ---
 
 ## Local Overrides
 
-A `.claude/sdlc.local.yaml` file at the project root (not inside the plugin) lets you adapt the pipeline without modifying any plugin:
+A `.agents/sdlc.local.yaml` file at the project root (not inside the plugin) lets you adapt the pipeline without modifying any plugin:
 
 ```yaml
 post_pipeline_checks:
@@ -402,11 +275,10 @@ Contract for a new framework provider:
 
 ```
 plugins/your-framework-plugin/
-├── .claude-plugin/
-│   └── plugin.json          # { "name": "...", "dependencies": ["sdlc"] }
+├── plugin.json              # { "name": "...", "dependencies": ["sdlc"] }
 ├── stack.md                 # YAML frontmatter: stack, priority, aspects, detect
 ├── agents/
-│   └── your-architect.md    # frontmatter: name, model, effort, color, tools
+│   └── your-architect.md    # frontmatter: name, model, temperature, max_output_tokens
 ├── skills/
 │   └── your-conventions/
 │       └── SKILL.md
@@ -450,7 +322,7 @@ detect:
 
 ```bash
 # Validate plugin.json
-npx check-jsonschema --schemafile schemas/plugin.schema.json .claude-plugin/plugin.json
+npx check-jsonschema --schemafile schemas/plugin.schema.json plugin.json
 
 # Validate stack.md frontmatter
 npx check-jsonschema --schemafile schemas/stack.schema.json <(yq '.frontmatter' stack.md)
@@ -458,59 +330,10 @@ npx check-jsonschema --schemafile schemas/stack.schema.json <(yq '.frontmatter' 
 
 ---
 
-## Installation (step-by-step)
-
-### 1. Add the marketplace
-
-```bash
-/plugin marketplace add AratKruglik/claude-sdlc
-# or for local development:
-/plugin marketplace add /path/to/claude-sdlc
-```
-
-### 2. Install core + required plugins
-
-```bash
-# Core is installed automatically as a dependency
-/plugin install nodejs-plugin@sdlc-marketplace     # Node.js backend
-/plugin install js-foundation@sdlc-marketplace     # required for JS/TS plugins
-```
-
-### 3. Optional external dependencies
-
-```bash
-/plugin marketplace add obra/superpowers
-/plugin install superpowers@superpowers-marketplace
-
-/plugin marketplace add anthropics/claude-plugins-official
-/plugin install security-guidance@claude-plugins-official
-```
-
-### 4. Verify
-
-```bash
-/sdlc:doctor
-# → Stack profiles detected: vanilla(0), nodejs(100), react(150), ...
-# → superpowers: ✅ installed
-# → security-guidance: ⚠️ not found (pipeline will run in degraded mode)
-
-/sdlc:list-stacks
-# → Shows all matched stack profiles for current project
-```
-
-### 5. Run
-
-```bash
-/sdlc:start "Add user authentication with JWT"
-# → Auto-detects stack, runs 5 phases, creates PR
-```
-
----
-
 ## Requirements
 
-- Claude Code (latest)
-- API Tier 2+ or Claude Max — a medium feature uses ~445K input tokens; Pro plan rate limits will throttle the pipeline.
+- Google Antigravity CLI (`agy`) or Antigravity IDE (latest)
+- Gemini API key / Vertex model permissions for `gemini-3-pro-high`, `gemini-3.5-flash`, and `gemini-3-flash`
 - A Git repository for `document-writer` (PR creation).
 
 ## License

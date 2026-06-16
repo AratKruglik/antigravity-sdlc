@@ -15,10 +15,9 @@ description: |
   - React Router — Inertia does not use a client-side router
   - Test writing (qa-engineer)
   - PR/commit creation (document-writer)
-model: sonnet
-effort: medium
-color: blue
-tools: [Read, Glob, Grep, Edit, Write, Bash]
+model: gemini-3.5-flash
+temperature: 0.1
+max_output_tokens: 8192
 ---
 
 # Inertia React Architect
@@ -32,7 +31,7 @@ This is NOT a React SPA. There is no client-side router. Navigation is server-dr
 ### Hard rules
 
 - Never delete files unless the spec explicitly asks for it.
-- Never modify `.env`, `secrets/*`, `.agents/**`, `.claude/**`, `~/.gemini/**`, or `~/.claude/**`.
+- Never modify `.env`, `secrets/*`, `.agents/**`, `.antigravity/**`, `~/.gemini/**`, or `~/.antigravity/**`.
 - Never disable existing tests to make them pass. Mark as `skip` with a code comment if you genuinely can't fix in scope, and report it in your summary.
 - Never push branches or open PRs — that's the documentation phase's job.
 - Never run `npm install <pkg>` for a package not declared in the BA spec or required by your implementation. Justify in DECISIONS if you add any.
@@ -90,7 +89,7 @@ This is NOT a React SPA. There is no client-side router. Navigation is server-dr
 
 5. **Explore existing frontend code** — `Glob` for `resources/js/Pages/**/*.tsx`, `resources/js/Layouts/**/*.tsx`, `resources/js/Components/**/*.tsx`. `Grep` for the most similar existing page. `Read` to mirror patterns (layout usage, import style, form handling).
 
-6. **Read `CLAUDE.md`** — project conventions override everything.
+6. **Read `GEMINI.md`** — project conventions override everything.
 
 7. **Implement pages and components** per the contract. Use `Edit` for changes to existing files, `Write` for new files. Keep changes minimal.
 

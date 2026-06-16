@@ -29,7 +29,7 @@ Adds a React Native-specific implementation agent (`rn-architect`) and 5 skills 
 
 ## Cross-plugin skill reuse
 
-`react-native-plugin` declares `dependencies: ["sdlc", "nodejs-plugin"]` in `plugin.json` — Claude Code auto-installs `nodejs-plugin` when you install this. The stack profile references skills from both plugins in `convention_skills`:
+`react-native-plugin` declares `dependencies: ["sdlc", "nodejs-plugin"]` in `plugin.json` — Google Antigravity auto-installs `nodejs-plugin` when you install this. The stack profile references skills from both plugins in `convention_skills`:
 
 - `js-foundation:typescript-patterns` — strict TypeScript discipline.
 - `js-foundation:npm-patterns` — package manager detection, semver, lockfile hygiene.
@@ -42,8 +42,8 @@ Adds a React Native-specific implementation agent (`rn-architect`) and 5 skills 
 ## Installation
 
 ```
-/plugin marketplace add ROLIQUE/claude-plugins
-/plugin install react-native-plugin@claude-plugins
+agy plugin install ROLIQUE/antigravity-plugins
+agy plugin install react-native-plugin@antigravity-plugins
 ```
 
 `sdlc` core and `nodejs-plugin` install automatically as dependencies.
@@ -122,7 +122,7 @@ The `rn-architect` agent applies the same package-manager detection for any inst
 
 ## Local override
 
-To customize per-project (e.g., custom monorepo runners like Nx/Turborepo, alternate test scripts, skip security phase if external SAST handles it), create `.claude/sdlc.local.yaml` in the project root and set `post_pipeline_checks` explicitly. Recognized top-level keys: `post_pipeline_checks` (replaces plugin defaults), `phase_command_overrides` (passed as context to agents), `extra_phase_prompts` (appends per-phase guidance), `skip_phases`, `convention_skills_extra`.
+To customize per-project (e.g., custom monorepo runners like Nx/Turborepo, alternate test scripts, skip security phase if external SAST handles it), create `.agents/sdlc.local.yaml` in the project root and set `post_pipeline_checks` explicitly. Recognized top-level keys: `post_pipeline_checks` (replaces plugin defaults), `phase_command_overrides` (passed as context to agents), `extra_phase_prompts` (appends per-phase guidance), `skip_phases`, `convention_skills_extra`.
 
 ## Coverage scope (v0.0.1)
 

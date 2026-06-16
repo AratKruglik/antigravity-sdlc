@@ -77,7 +77,7 @@ For security phase, inject:
 
 ## Post-pipeline checks
 
-The plugin auto-detects the package manager from the lockfile (`pnpm-lock.yaml` → pnpm, `yarn.lock` → yarn, otherwise npm) and runs the equivalent commands. `npm run build` for Next.js performs combined compile + type-check + lint and catches most runtime issues — it's the most valuable single check. Override per-project via `.claude/sdlc.local.yaml` `post_pipeline_checks` for monorepo runners (Nx, Turborepo).
+The plugin auto-detects the package manager from the lockfile (`pnpm-lock.yaml` → pnpm, `yarn.lock` → yarn, otherwise npm) and runs the equivalent commands. `npm run build` for Next.js performs combined compile + type-check + lint and catches most runtime issues — it's the most valuable single check. Override per-project via `.agents/sdlc.local.yaml` `post_pipeline_checks` for monorepo runners (Nx, Turborepo).
 
 - sh -c 'if [ -f pnpm-lock.yaml ]; then pnpm test; elif [ -f yarn.lock ]; then yarn test; else npm test; fi'
 - sh -c 'if [ -f pnpm-lock.yaml ]; then pnpm run lint 2>/dev/null || true; elif [ -f yarn.lock ]; then yarn run lint 2>/dev/null || true; else npm run lint --if-present; fi'

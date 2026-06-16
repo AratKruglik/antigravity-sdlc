@@ -25,7 +25,7 @@ Adds a NestJS-specific implementation agent (`nest-architect`) and 5 conventions
 
 ## Cross-plugin skill reuse
 
-`nestjs-plugin` declares `dependencies: ["sdlc", "nodejs-plugin"]` in `plugin.json` — Claude Code auto-installs `nodejs-plugin` when you install this. The stack profile references skills from both plugins in `convention_skills`:
+`nestjs-plugin` declares `dependencies: ["sdlc", "nodejs-plugin"]` in `plugin.json` — Google Antigravity auto-installs `nodejs-plugin` when you install this. The stack profile references skills from both plugins in `convention_skills`:
 
 - `js-foundation:typescript-patterns` — strict TypeScript discipline (no-`any`, validation at boundary, etc.).
 - `js-foundation:npm-patterns` — package manager detection, semver, lockfile hygiene.
@@ -40,8 +40,8 @@ This is the first cross-plugin skill reuse in the marketplace — DRY without du
 ## Installation
 
 ```
-/plugin marketplace add ROLIQUE/claude-plugins
-/plugin install nestjs-plugin@claude-plugins
+agy plugin install ROLIQUE/antigravity-plugins
+agy plugin install nestjs-plugin@antigravity-plugins
 ```
 
 `sdlc` core and `nodejs-plugin` install automatically as dependencies.
@@ -93,7 +93,7 @@ The `nest-architect` agent applies the same detection for any install/script inv
 
 ## Local override
 
-To customize per-project (e.g., monorepo runners like Nx/Turborepo, custom test scripts, skip security phase if external SAST handles it), create `.claude/sdlc.local.yaml` in the project root and set `post_pipeline_checks` explicitly. Recognized top-level keys: `post_pipeline_checks` (replaces plugin defaults), `phase_command_overrides` (passed as context to agents), `extra_phase_prompts` (appends per-phase guidance), `skip_phases`, `convention_skills_extra`.
+To customize per-project (e.g., monorepo runners like Nx/Turborepo, custom test scripts, skip security phase if external SAST handles it), create `.agents/sdlc.local.yaml` in the project root and set `post_pipeline_checks` explicitly. Recognized top-level keys: `post_pipeline_checks` (replaces plugin defaults), `phase_command_overrides` (passed as context to agents), `extra_phase_prompts` (appends per-phase guidance), `skip_phases`, `convention_skills_extra`.
 
 ## Coverage scope (v0.0.1)
 

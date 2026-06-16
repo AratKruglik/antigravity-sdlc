@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # PreToolUse hook: enforce declared model on every Agent() dispatch.
 #
-# Claude Code sends a JSON payload on stdin:
+# Google Antigravity sends a JSON payload on stdin:
 #   { "tool_name": "Agent",
 #     "tool_input": { "subagent_type": "...", "model": "...", ... } }
 #
@@ -12,10 +12,13 @@ set -uo pipefail
 # Tier → full model ID
 tier_to_model() {
     case "$1" in
-        opus)   echo "claude-opus-4-8" ;;
-        sonnet) echo "claude-sonnet-4-6" ;;
-        haiku)  echo "claude-haiku-4-5-20251001" ;;
-        *)      echo "" ;;
+        gemini-3-pro-high) echo "gemini-3-pro-high" ;;
+        gemini-3.5-flash)  echo "gemini-3.5-flash" ;;
+        gemini-3-flash)    echo "gemini-3-flash" ;;
+        pro-high)          echo "gemini-3-pro-high" ;;
+        flash-med)         echo "gemini-3.5-flash" ;;
+        flash-low)         echo "gemini-3-flash" ;;
+        *)                 echo "$1" ;;
     esac
 }
 
@@ -48,7 +51,7 @@ fi
 [ "$tool_name" = "Agent" ] || { allow; exit 0; }
 [ -n "$agent_name" ]       || { allow; exit 0; }
 
-project_root="${ANTIGRAVITY_PROJECT_DIR:-${AGY_PROJECT_DIR:-${CLAUDE_PROJECT_DIR:-$(pwd)}}}"
+project_root="${ANTIGRAVITY_PROJECT_DIR:-${AGY_PROJECT_DIR:-$(pwd)}}"
 log_path="${project_root}/docs/plans/_model-enforcement.log"
 
 # ── find agent .md ──────────────────────────────────────────────────────────
@@ -66,13 +69,6 @@ if [ -n "${AGY_PLUGIN_ROOT:-}" ]; then
         "${AGY_PLUGIN_ROOT}"
         "$(dirname "${AGY_PLUGIN_ROOT}")"
         "$(dirname "$(dirname "${AGY_PLUGIN_ROOT}")")"
-    )
-fi
-if [ -n "${CLAUDE_PLUGIN_ROOT:-}" ]; then
-    search_roots+=(
-        "${CLAUDE_PLUGIN_ROOT}"
-        "$(dirname "${CLAUDE_PLUGIN_ROOT}")"
-        "$(dirname "$(dirname "${CLAUDE_PLUGIN_ROOT}")")"
     )
 fi
 search_roots+=( "${project_root}/plugins" )

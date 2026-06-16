@@ -14,8 +14,8 @@ Format follows [Keep a Changelog](https://keepachangelog.com/), versioning is [S
   - `security-patterns.yaml` — C# security rules for `security-guidance`: `Process.Start`, `BinaryFormatter`/`LosFormatter`/`JavaScriptSerializer` deserialization, SQL concatenation into `CommandText`, hardcoded secrets, XXE via `DtdProcessing.Parse`.
 
 - **`aspnet-core-plugin` v0.0.1** — ASP.NET Core backend + database stack provider (priority=100). Detects ASP.NET Core projects via `appsettings.json` (glob-based). Adds two agents plus two convention skills:
-  - `aspnet-core-architect` (Sonnet/medium) — Minimal API endpoint groups with `TypedResults`, MVC `[ApiController]`, DTOs as `record` types, FluentValidation `AbstractValidator<T>`, DI lifetimes, Options pattern (`IOptions<T>`), policy-based and resource-based authorization, `ProblemDetails` error handling (RFC 9457), structured logging, JWT Bearer authentication, HTTPS/HSTS pipeline, User Secrets / Key Vault for secrets management, EF Core entity stubs. Designs the API contract for SPA frontend plugins.
-  - `efcore-specialist` (Sonnet/low) — finalizes EF Core entity configurations (`IEntityTypeConfiguration<T>`, Fluent API, column types with `HasPrecision`/`HasMaxLength`, `OnDelete` cascade/restrict/set-null), generates migrations via `dotnet ef migrations add`, reviews the generated SQL, runs `dotnet ef database update`, rollback test. Runs in the extra `database` phase.
+  - `aspnet-core-architect` (Gemini 3.5 Flash/medium) — Minimal API endpoint groups with `TypedResults`, MVC `[ApiController]`, DTOs as `record` types, FluentValidation `AbstractValidator<T>`, DI lifetimes, Options pattern (`IOptions<T>`), policy-based and resource-based authorization, `ProblemDetails` error handling (RFC 9457), structured logging, JWT Bearer authentication, HTTPS/HSTS pipeline, User Secrets / Key Vault for secrets management, EF Core entity stubs. Designs the API contract for SPA frontend plugins.
+  - `efcore-specialist` (Gemini 3.5 Flash/low) — finalizes EF Core entity configurations (`IEntityTypeConfiguration<T>`, Fluent API, column types with `HasPrecision`/`HasMaxLength`, `OnDelete` cascade/restrict/set-null), generates migrations via `dotnet ef migrations add`, reviews the generated SQL, runs `dotnet ef database update`, rollback test. Runs in the extra `database` phase.
   - `aspnet-conventions` — Program.cs composition order, Minimal API endpoint groups, DI lifetimes, Options pattern, FluentValidation, `ProblemDetails`, structured logging, JWT Bearer, HTTPS/HSTS, configuration layering (appsettings + env vars + User Secrets), health checks (`/health/live` + `/health/ready`).
   - `efcore-patterns` — DbContext design with `ApplyConfigurationsFromAssembly`, Fluent API column types, relations (`HasOne`/`HasMany`, `OnDelete`), `AsNoTracking` projections to DTOs, avoiding N+1 (`Include`/`AsSplitQuery`), transactions, parameterized raw SQL (`FromSql(FormattableString)` — never `FromSqlRaw` with interpolation).
   - Phase-prompt injection: ASP.NET Core-specific dev (Program.cs layers, DTOs, validation, authorization, middleware order, secrets), QA (`WebApplicationFactory<TProgram>`, xUnit `IClassFixture`, EF Core in-memory / Testcontainers), and security (authorization gaps, anti-forgery, HTTPS/HSTS, CORS misconfiguration, EF Core raw SQL, over-posting, Data Protection, CSP) guidance.
@@ -44,8 +44,8 @@ Mirrors `java-foundation → {java-plugin, spring-boot-plugin}` and `php-foundat
 ### Installation
 
 ```
-/plugin install aspnet-core-plugin@sdlc-marketplace   # pulls sdlc + csharp-foundation automatically
-/plugin install csharp-foundation@sdlc-marketplace    # standalone, for C# skills without a stack provider
+agy plugin install aspnet-core-plugin@sdlc-marketplace   # pulls sdlc + csharp-foundation automatically
+agy plugin install csharp-foundation@sdlc-marketplace    # standalone, for C# skills without a stack provider
 ```
 
 ---
@@ -61,8 +61,8 @@ Mirrors `java-foundation → {java-plugin, spring-boot-plugin}` and `php-foundat
   - `security-patterns.yaml` — PHP security rules (dynamic code execution, shell execution, unsafe deserialization, hardcoded secrets, SQL concatenation, path traversal, debug output) for `security-guidance`.
 
 - **`symfony-plugin` v0.0.1** — Symfony backend + database stack provider (priority=100). Detects `symfony/framework-bundle` in `composer.json`. Adds two agents plus two convention skills:
-  - `symfony-architect` (Sonnet/medium) — attribute routing, controllers-as-services + constructor injection, Form types, Validation constraints, Voters, Serializer/DTO contract, Messenger, Twig rendering. Designs the API/serialization contract for SPA frontend plugins.
-  - `doctrine-specialist` (Sonnet/low) — finalizes Doctrine entity mappings, generates migrations via `doctrine:migrations:diff`, reviews the SQL, writes fixtures, runs `migrate` + `doctrine:schema:validate`. Runs in the extra `database` phase.
+  - `symfony-architect` (Gemini 3.5 Flash/medium) — attribute routing, controllers-as-services + constructor injection, Form types, Validation constraints, Voters, Serializer/DTO contract, Messenger, Twig rendering. Designs the API/serialization contract for SPA frontend plugins.
+  - `doctrine-specialist` (Gemini 3.5 Flash/low) — finalizes Doctrine entity mappings, generates migrations via `doctrine:migrations:diff`, reviews the SQL, writes fixtures, runs `migrate` + `doctrine:schema:validate`. Runs in the extra `database` phase.
   - `symfony-conventions` — attribute routing, DI/autowiring, Form types, validation, Voters, Serializer, Messenger.
   - `doctrine-patterns` — entity mapping as source of truth, repositories, parameterized DQL, N+1/fetch joins, relations, batch processing, generated migrations.
   - Phase-prompt injection: Symfony-specific dev (layers, Voters, validation, lint:container), QA (`WebTestCase`/`KernelTestCase`, dama/doctrine-test-bundle), and security (Voters/access_control, CSRF, secrets, DQL injection, Serializer over-exposure) guidance.
@@ -87,8 +87,8 @@ Mirrors `java-foundation → {java-plugin, spring-boot-plugin}`. Laravel and Sym
 ### Installation
 
 ```
-/plugin install symfony-plugin@sdlc-marketplace   # pulls sdlc + php-foundation automatically
-/plugin install laravel-plugin@sdlc-marketplace   # now also pulls php-foundation
+agy plugin install symfony-plugin@sdlc-marketplace   # pulls sdlc + php-foundation automatically
+agy plugin install laravel-plugin@sdlc-marketplace   # now also pulls php-foundation
 ```
 
 ---
@@ -102,9 +102,9 @@ Mirrors `java-foundation → {java-plugin, spring-boot-plugin}`. Laravel and Sym
   - `build-tooling` — Maven vs Gradle detection, wrapper (`./mvnw` / `./gradlew`), BOM dependency management, version properties, multi-module projects.
   - `jvm-testing` — JUnit 5 (AAA structure, parameterised tests), Mockito (constructor injection, no `@InjectMocks`), AssertJ fluent assertions, Testcontainers integration tests, JaCoCo coverage.
 
-- **`java-plugin` v0.0.1** — Plain Java backend stack provider (priority=100). Detects any Maven or Gradle project by build-file presence (`pom.xml` / `build.gradle` / `build.gradle.kts`). Adds `java-architect` agent (Sonnet/medium). Suitable for libraries, CLI tools, micro-services without a recognized web framework. Acts as a mid-tier fallback — `spring-boot-plugin` (priority 150) wins on Spring projects.
+- **`java-plugin` v0.0.1** — Plain Java backend stack provider (priority=100). Detects any Maven or Gradle project by build-file presence (`pom.xml` / `build.gradle` / `build.gradle.kts`). Adds `java-architect` agent (Gemini 3.5 Flash/medium). Suitable for libraries, CLI tools, micro-services without a recognized web framework. Acts as a mid-tier fallback — `spring-boot-plugin` (priority 150) wins on Spring projects.
 
-- **`spring-boot-plugin` v0.0.1** — Spring Boot backend stack provider (priority=150). Detects `spring-boot` marker in any build file. Adds `spring-boot-architect` agent (Sonnet/medium) plus two convention skills:
+- **`spring-boot-plugin` v0.0.1** — Spring Boot backend stack provider (priority=150). Detects `spring-boot` marker in any build file. Adds `spring-boot-architect` agent (Gemini 3.5 Flash/medium) plus two convention skills:
   - `spring-conventions` — REST controllers (`@RestController`, `@RequestMapping`), service layer (`@Service`, `@Transactional`), constructor injection, `@ConfigurationProperties` records, Bean Validation, `ProblemDetail` error handling (RFC 9457).
   - `spring-data-jpa` — JPA entities, `JpaRepository`, JPQL `@Query`, N+1 avoidance (`@EntityGraph` / `JOIN FETCH`), Flyway/Liquibase migration stubs, optimistic locking, pagination.
   - Phase-prompt injection: Spring-specific dev (layers, annotations, migrations), QA (`@SpringBootTest`, `@WebMvcTest`, `@DataJpaTest` slices, MockMvc), and security (Spring Security `HttpSecurity`, CSRF, `@PreAuthorize`, Actuator exposure, SpEL injection) guidance.
@@ -132,8 +132,8 @@ Mirrors the `js-foundation → nodejs-plugin → nestjs-plugin` layering. `java-
 ### Installation
 
 ```
-/plugin install spring-boot-plugin@sdlc-marketplace   # pulls sdlc + java-foundation automatically
-/plugin install java-plugin@sdlc-marketplace          # for plain Java projects
+agy plugin install spring-boot-plugin@sdlc-marketplace   # pulls sdlc + java-foundation automatically
+agy plugin install java-plugin@sdlc-marketplace          # for plain Java projects
 ```
 
 ---
@@ -142,7 +142,7 @@ Mirrors the `js-foundation → nodejs-plugin → nestjs-plugin` layering. `java-
 
 ### Changed
 
-- **All agents — execution-first restructure**: renamed `## Your job` → `## Steps` across all 13 agents (matches official Claude Code agent convention). Extracted `## Hard rules` and `## Code quality bar` into a unified `## Constraints` block placed _before_ `## Steps` so the agent reads its limits before acting. For `laravel-architect`, `## What you do NOT do` also merged into `## Constraints`.
+- **All agents — execution-first restructure**: renamed `## Your job` → `## Steps` across all 13 agents (matches official Google Antigravity agent convention). Extracted `## Hard rules` and `## Code quality bar` into a unified `## Constraints` block placed _before_ `## Steps` so the agent reads its limits before acting. For `laravel-architect`, `## What you do NOT do` also merged into `## Constraints`.
 
 ---
 
@@ -158,7 +158,7 @@ Mirrors the `js-foundation → nodejs-plugin → nestjs-plugin` layering. `java-
 
 ### Changed
 
-- **`sdlc` plugin v0.0.2 → v0.1.0**: restructured `business-analyst.md` agent prompt for Claude execution — removed human-facing `## Why Opus` and role-play preamble, renamed `## Your job` → `## Steps` (matches official Claude Code agent convention), moved `## Constraints` block before steps, moved `## Output` schema before steps so the agent knows the target before reading the process.
+- **`sdlc` plugin v0.0.2 → v0.1.0**: restructured `business-analyst.md` agent prompt for Antigravity execution — removed human-facing `## Why Gemini 3 Pro` and role-play preamble, renamed `## Your job` → `## Steps` (matches official Google Antigravity agent convention), moved `## Constraints` block before steps, moved `## Output` schema before steps so the agent knows the target before reading the process.
 
 ---
 
@@ -166,7 +166,7 @@ Mirrors the `js-foundation → nodejs-plugin → nestjs-plugin` layering. `java-
 
 ### Fixed
 
-- **`marketplace.json` source types**: replaced unsupported shorthand strings `"obra/superpowers"` and `"anthropics/claude-plugins-official"` with proper source objects — `{ "source": "url", "url": "https://github.com/obra/superpowers.git" }` and `{ "source": "git-subdir", "url": "https://github.com/anthropics/claude-plugins-official.git", "path": "plugins/security-guidance" }`. Fixes _"This plugin uses a source type your Claude Code version does not support"_ error on install.
+- **`marketplace.json` source types**: replaced unsupported shorthand strings `"obra/superpowers"` and `"google-antigravity/antigravity-plugins-official"` with proper source objects — `{ "source": "url", "url": "https://github.com/obra/superpowers.git" }` and `{ "source": "git-subdir", "url": "https://github.com/google-antigravity/antigravity-plugins-official.git", "path": "plugins/security-guidance" }`. Fixes _"This plugin uses a source type your Google Antigravity version does not support"_ error on install.
 
 ---
 
@@ -174,15 +174,15 @@ Mirrors the `js-foundation → nodejs-plugin → nestjs-plugin` layering. `java-
 
 ### Added — marketplace port and cost optimization
 
-- **8 нових стек-плагінів** (ported з Rolique/claude-plugins v0.1.1): `js-foundation`, `nodejs-plugin`, `nestjs-plugin`, `nextjs-plugin`, `react-plugin`, `vue-plugin`, `angular-plugin`, `react-native-plugin`. Маркетплейс з 2 → 10 локальних плагінів.
+- **8 нових стек-плагінів** (ported з Rolique/antigravity-plugins v0.1.1): `js-foundation`, `nodejs-plugin`, `nestjs-plugin`, `nextjs-plugin`, `react-plugin`, `vue-plugin`, `angular-plugin`, `react-native-plugin`. Маркетплейс з 2 → 10 локальних плагінів.
 
 - **`schemas/`** — JSON-схеми для валідації `plugin.json` і frontmatter `stack.md` (`plugin.schema.json`, `stack.schema.json`).
 
 - **`/sdlc:batch`** slash-команда — паралельне виконання SDLC-пайплайну для кількох задач, ізольовані worktree, detect конфліктів файлів.
 
-- **`/sdlc:security-init`** slash-команда — матеріалізація стек-специфічного `security-patterns.yaml` і `claude-security-guidance.md` у поточний проєкт для `security-guidance` плагіна.
+- **`/sdlc:security-init`** slash-команда — матеріалізація стек-специфічного `security-patterns.yaml` і `antigravity-security-guidance.md` у поточний проєкт для `security-guidance` плагіна.
 
-- **`superpowers` і `security-guidance`** як зовнішні залежності в `marketplace.json` (записи для external plugins від `obra/superpowers` і `anthropics/claude-plugins-official`).
+- **`superpowers` і `security-guidance`** як зовнішні залежності в `marketplace.json` (записи для external plugins від `obra/superpowers` і `google-antigravity/antigravity-plugins-official`).
 
 - **`effort` поле** в frontmatter всіх 14 агентів — перший usage поля, яке перекриває session-рівень reasoning-бюджету.
 
@@ -190,19 +190,19 @@ Mirrors the `js-foundation → nodejs-plugin → nestjs-plugin` layering. `java-
 
 - **`marketplace.json` v0.0.2 → v0.1.0**: додано 12 записів (2 зовнішніх + 8 нових плагінів), оновлено descriptions з model/effort тарифами.
 
-- **Re-tier усіх агентів** — всі `model` поля перейшли на аліаси (більше ніяких застарілих пінувань `claude-opus-4-7`). Додано `effort` до кожного агента:
+- **Re-tier усіх агентів** — всі `model` поля перейшли на аліаси (більше ніяких застарілих пінувань `antigravity-opus-4-7`). Додано `effort` до кожного агента:
   - `business-analyst`, `security-analyst`: `opus` + `effort: high` (помилки тут каскадно дорогі, малий об'єм токенів)
   - усі 9 архітекторів + `developer` + `qa-engineer`: `sonnet` + `effort: medium` (виконавча фаза, специфікація задає обмеження)
   - `artisan-specialist`: `sonnet` + `effort: low` (механічна DB-робота: типи/індекси/factories)
   - `document-writer`: `haiku` + `effort: low` (структурований вивід із відомих фактів)
 
-- **Rolique all-Opus mandate скасовано**: всі 7 Rolique-архітекторів знижено з `opus` → `sonnet` + `effort: medium`. Обґрунтування в тілі кожного агента оновлено.
+- **Rolique all-Gemini 3 Pro mandate скасовано**: всі 7 Rolique-архітекторів знижено з `opus` → `sonnet` + `effort: medium`. Обґрунтування в тілі кожного агента оновлено.
 
 - **Злиття `pipeline-orchestrator/SKILL.md`** (807 рядків → 955 рядків): інтегровано з Rolique-версії — multi-plugin runtime-dependencies aggregation, preflight cache fast-path, two-pass development approval gate, `--force-ba`/`--no-skip-rules` flag reservations; збережено наявні cost/skip-rule секції і prompt-caching discipline.
 
 ### Notes
 
-- `temperature` не налаштовується per-subagent у Claude Code — в плані опускаємо. Reasoning-бюджет керується виключно полем `effort`.
+- `temperature` не налаштовується per-subagent у Google Antigravity — в плані опускаємо. Reasoning-бюджет керується виключно полем `effort`.
 
 - Аліаси (`opus`/`sonnet`/`haiku`) завжди беруть актуальну версію тіру; ручне оновлення при виходах нових моделей не потрібне.
 
@@ -224,9 +224,9 @@ Mirrors the `js-foundation → nodejs-plugin → nestjs-plugin` layering. `java-
 
 - `docs/decisions/ADR-014-aspect-tagged-profiles.md` — architectural decision for multi-aspect project composition (Laravel + Inertia/Vue/React/Livewire). Plans aspect-tagged profile resolution + phase fan-out for Phase 4-5. Cross-referenced from `ARCHITECTURE.md` §10.5 and `PROJECT_INTEGRATION.md` §10.5.
 
-- `<project>/.claude/sdlc.local.yaml` first-class override mechanism for `post_pipeline_checks`, `phase_command_overrides`, `extra_phase_prompts`, `skip_phases`, `convention_skills_extra` (was originally scoped to Phase 3, pulled forward). Implemented as Step 1b in `pipeline-orchestrator/SKILL.md`.
+- `<project>/.agents/sdlc.local.yaml` first-class override mechanism for `post_pipeline_checks`, `phase_command_overrides`, `extra_phase_prompts`, `skip_phases`, `convention_skills_extra` (was originally scoped to Phase 3, pulled forward). Implemented as Step 1b in `pipeline-orchestrator/SKILL.md`.
 
-- `PROJECT_INTEGRATION.md` knowledge base: how plugins interact with project-local config (CLAUDE.md, `.claude/skills/`, `.mcp.json`, `sdlc.local.yaml`). Documents auto-respected channels, current limitations, recommended scenarios (Herd vs Docker, monorepo, PHPUnit vs Pest, external SAST).
+- `PROJECT_INTEGRATION.md` knowledge base: how plugins interact with project-local config (GEMINI.md, `.agents/skills/`, `.mcp.json`, `sdlc.local.yaml`). Documents auto-respected channels, current limitations, recommended scenarios (Herd vs Docker, monorepo, PHPUnit vs Pest, external SAST).
 
 - `/sdlc:list-stacks` slash command for verifying stack profile detection (Glob installed plugins, parse frontmatter, evaluate detect rules against current project).
 
@@ -258,7 +258,7 @@ Mirrors the `js-foundation → nodejs-plugin → nestjs-plugin` layering. `java-
 
 - Renamed plugin `core-sdlc-plugin` → `sdlc`. Slash command went from `/core-sdlc-plugin:sdlc-start` to `/sdlc:start`. Cleaner UX in plugin namespace.
 
-- `plugin.json` `dependencies` switched from object form to native array (`["sdlc"]`) per Claude Code schema; runtime plugin checks moved to `runtime-dependencies.json`.
+- `plugin.json` `dependencies` switched from object form to native array (`["sdlc"]`) per Google Antigravity schema; runtime plugin checks moved to `runtime-dependencies.json`.
 
 - License switched from MIT to GPL-3.0.
 

@@ -13,10 +13,9 @@ description: |
   - Writing implementation code (developer / framework-architect)
   - End-to-end browser tests in Laravel (Phase 5+ might add a separate qa-e2e agent)
   - Manual QA / exploratory testing (out of scope for this pipeline)
-model: sonnet
-effort: medium
-color: yellow
-tools: [Read, Glob, Grep, Edit, Write, Bash]
+model: gemini-3.5-flash
+temperature: 0.1
+max_output_tokens: 4096
 ---
 
 # QA Engineer

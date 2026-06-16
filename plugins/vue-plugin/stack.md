@@ -88,7 +88,7 @@ For security phase, inject:
 
 ## Post-pipeline checks
 
-Plugin auto-detects package manager from lockfile (`pnpm-lock.yaml` → pnpm, `yarn.lock` → yarn, otherwise npm). `vue-tsc` understands `.vue` SFC TypeScript; falls back to plain `tsc` if not installed. Override per-project via `.claude/sdlc.local.yaml` `post_pipeline_checks` for monorepo runners (Nx, Turborepo).
+Plugin auto-detects package manager from lockfile (`pnpm-lock.yaml` → pnpm, `yarn.lock` → yarn, otherwise npm). `vue-tsc` understands `.vue` SFC TypeScript; falls back to plain `tsc` if not installed. Override per-project via `.agents/sdlc.local.yaml` `post_pipeline_checks` for monorepo runners (Nx, Turborepo).
 
 - sh -c 'if [ -f pnpm-lock.yaml ]; then pnpm test; elif [ -f yarn.lock ]; then yarn test; else npm test; fi'
 - sh -c 'if [ -f pnpm-lock.yaml ]; then pnpm run lint 2>/dev/null || true; elif [ -f yarn.lock ]; then yarn run lint 2>/dev/null || true; else npm run lint --if-present; fi'

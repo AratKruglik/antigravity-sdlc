@@ -37,8 +37,7 @@ Dependencies (from runtime-dependencies.json):
     status: ❌ missing
     missing skills: code-style, internal-api-style
     install:
-      /plugin marketplace add acme/internal-tools
-      /plugin install acme-internal@acme-internal-tools
+      agy plugin install acme/internal-tools
 
 Stack profiles:
   🎯 active: laravel (priority=100, from laravel-plugin/stack.md)
@@ -71,8 +70,7 @@ If a section is absent (no baseline file, no missing deps, etc.) say so explicit
       "policy": "block",
       "missing_skills": ["code-style", "internal-api-style"],
       "install_command": [
-        "/plugin marketplace add acme/internal-tools",
-        "/plugin install acme-internal@acme-internal-tools"
+        "agy plugin install acme/internal-tools"
       ]
     }
   },

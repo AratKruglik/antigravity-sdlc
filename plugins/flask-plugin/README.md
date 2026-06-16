@@ -1,6 +1,6 @@
 # flask-plugin
 
-Flask backend + database stack provider for the `claude-sdlc` marketplace.
+Flask backend + database stack provider for the `antigravity-sdlc` marketplace.
 
 Flask is a minimalist Python microframework that supports **both** server-rendered Jinja2 templates **and** JSON APIs. This plugin handles whichever mode the project uses. SPA frontends (Vue, React) connect to the Flask application via the JSON API contract that `flask-architect` designs and documents. The frontend aspect is handled by whichever frontend plugin is active (`vue-plugin`, `react-plugin`, etc.).
 
@@ -53,8 +53,8 @@ Both modes can coexist in a single Flask application. `flask-architect` detects 
 ## Installation
 
 ```bash
-# From the claude-sdlc marketplace root
-claude plugin install flask-plugin
+# From the antigravity-sdlc marketplace root
+agy plugin install flask-plugin
 ```
 
 The plugin activates automatically when `Flask` or `flask` is found in `pyproject.toml` or `requirements.txt`.

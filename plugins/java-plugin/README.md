@@ -37,7 +37,7 @@ Matches any project with at least one of:
 ## Installation
 
 ```
-/plugin install java-plugin@sdlc-marketplace
+agy plugin install java-plugin@sdlc-marketplace
 ```
 
 `sdlc` and `java-foundation` are pulled automatically as dependencies.

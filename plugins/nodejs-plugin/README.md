@@ -25,8 +25,8 @@ Adds a Node.js-specific implementation agent (`node-architect`) and conventions 
 ## Installation
 
 ```
-/plugin marketplace add ROLIQUE/claude-plugins
-/plugin install nodejs-plugin@claude-plugins
+agy plugin install ROLIQUE/antigravity-plugins
+agy plugin install nodejs-plugin@antigravity-plugins
 ```
 
 The core `sdlc` plugin is installed automatically as a dependency.
@@ -72,4 +72,4 @@ The `node-architect` agent applies the same detection for any install/script inv
 
 ## Local override
 
-To customize per-project (e.g., custom monorepo test runner, Yarn Berry workspaces, skip security phase if external SAST handles it), create `.claude/sdlc.local.yaml` in the project root and set `post_pipeline_checks` explicitly. Recognized top-level keys: `post_pipeline_checks` (replaces plugin defaults), `phase_command_overrides` (passed as context to agents), `extra_phase_prompts` (appends per-phase guidance), `skip_phases`, `convention_skills_extra`.
+To customize per-project (e.g., custom monorepo test runner, Yarn Berry workspaces, skip security phase if external SAST handles it), create `.agents/sdlc.local.yaml` in the project root and set `post_pipeline_checks` explicitly. Recognized top-level keys: `post_pipeline_checks` (replaces plugin defaults), `phase_command_overrides` (passed as context to agents), `extra_phase_prompts` (appends per-phase guidance), `skip_phases`, `convention_skills_extra`.

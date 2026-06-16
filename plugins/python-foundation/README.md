@@ -21,5 +21,5 @@ Shared Python foundation skills for the [SDLC Marketplace](../../README.md).
 Auto-pulled when you install any Python framework plugin. To use standalone:
 
 ```
-/plugin install python-foundation@sdlc-marketplace
+agy plugin install python-foundation@sdlc-marketplace
 ```

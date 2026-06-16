@@ -52,7 +52,7 @@ This single rule replaces the per-agent bilingual trigger keywords that were use
 
 Aggregate runtime dependencies from **every installed plugin's `runtime-dependencies.json`**, not just core. This allows framework plugins to declare their own external skill needs.
 
-> Note: Claude Code's native `plugin.json → dependencies` field is a simple array of plugin names used only for intra-marketplace install-time resolution (e.g., `nodejs-plugin` declaring it needs `sdlc`). Our runtime preflight — for external plugins like `superpowers` from another marketplace, with per-skill granularity and policies — lives in a separate `runtime-dependencies.json` file to avoid conflicting with the native schema.
+> Note: Google Antigravity's native `plugin.json → dependencies` field is a simple array of plugin names used only for intra-marketplace install-time resolution (e.g., `nodejs-plugin` declaring it needs `sdlc`). Our runtime preflight — for external plugins like `superpowers` from another marketplace, with per-skill granularity and policies — lives in a separate `runtime-dependencies.json` file to avoid conflicting with the native schema.
 
 **Algorithm (with cache fast-path):**
 
@@ -353,16 +353,12 @@ Merge across profiles to build `EFFECTIVE_PROFILE`:
 
 Hold these merged values as `PROFILE` (mutable in 1b).
 
-#### 1b. Apply project-local overrides from `<project>/.agents/sdlc.local.yaml` or `<project>/.claude/sdlc.local.yaml`
+#### 1b. Apply project-local overrides from `<project>/.agents/sdlc.local.yaml`
 
 Check whether the file exists:
 
 ```
 <project_root>/.agents/sdlc.local.yaml
-```
-or (fallback)
-```
-<project_root>/.claude/sdlc.local.yaml
 ```
 
 If absent — skip this sub-step silently. Continue with `PROFILE` as-is.
@@ -380,7 +376,7 @@ If present — `Read` and parse it. Recognized top-level keys:
 **Example `sdlc.local.yaml`:**
 
 ```yaml
-# <project>/.agents/sdlc.local.yaml (or .claude/sdlc.local.yaml)
+# <project>/.agents/sdlc.local.yaml
 post_pipeline_checks:
   - ./vendor/bin/pint --test
   - ./vendor/bin/pest
@@ -541,7 +537,7 @@ Examples:
 
 This is a contract with the user. Do not skip.
 
-**3b-3. Resolve model from agent frontmatter** — before spawning, resolve `{model_tier}` by reading the `model:` YAML field from the agent's `.md` file (`plugins/**/agents/{agent_name}.md`). This resolved tier is what you print in 3b-2 and pass to `Agent()` in 3c. Tier-to-ID mapping: `opus → claude-opus-4-8`, `sonnet → claude-sonnet-4-6`, `haiku → claude-haiku-4-5-20251001`. If the file is missing or the field is absent, warn inline and fall back to `sonnet`.
+**3b-3. Resolve model from agent frontmatter** — before spawning, resolve `{model_tier}` by reading the `model:` YAML field from the agent's `.md` file (`plugins/**/agents/{agent_name}.md`). This resolved tier is what you print in 3b-2 and pass to `Agent()` in 3c. Tier-to-ID mapping: direct model IDs (e.g. `gemini-3-pro-high`, `gemini-3.5-flash`, `gemini-3-flash`) or shorthand tiers (`pro-high → gemini-3-pro-high`, `flash-med → gemini-3.5-flash`, `flash-low → gemini-3-flash`). If the file is missing or the field is absent, warn inline and fall back to `gemini-3.5-flash`.
 
 **3b-special. Development phase two-pass execution**
 
@@ -591,11 +587,11 @@ Agent({
 **3d-1. Capture per-phase telemetry** — extract from the Agent tool result (when usage data is present in the result envelope, read `input_tokens`, `output_tokens`, `cached_input_tokens`; otherwise estimate from prompt + summary character length / 4). Compute:
 
 - `compact_summary_chars` — `len(CONTEXT.{phase}_output)`. If > 3000 chars (≈ 3K-token target), record `compact_handoff_violation: true` and emit a one-line warning to stderr: `WARN: {phase} compact summary exceeded budget ({chars} chars > 3000)`. Do not abort — the violation is recorded for post-run analysis.
-- `model` — the full model ID declared in the agent's frontmatter (`claude-opus-4-8`, `claude-sonnet-4-6`, or `claude-haiku-4-5-20251001`). This is the authoritative value because the PreToolUse hook enforces it at dispatch time. **Do not** read this from the Agent result envelope (it is not exposed there).
+- `model` — the full model ID declared in the agent's frontmatter (`gemini-3-pro-high`, `gemini-3.5-flash`, or `gemini-3-flash`). This is the authoritative value because the PreToolUse hook enforces it at dispatch time. **Do not** read this from the Agent result envelope (it is not exposed there).
 - `cost_usd` — derived from per-model pricing table (kept inline for transparency):
-  - opus (`claude-opus-4-8`): input $15/MTok, cached input $1.50/MTok, output $75/MTok
-  - sonnet (`claude-sonnet-4-6`): input $3/MTok, cached input $0.30/MTok, output $15/MTok
-  - haiku (`claude-haiku-4-5-20251001`): input $1/MTok, cached input $0.10/MTok, output $5/MTok
+  - Pro High (`gemini-3-pro-high`): input $1.25/MTok, cached input $0.3125/MTok, output $5.00/MTok
+  - Flash Medium (`gemini-3.5-flash`): input $0.075/MTok, cached input $0.01875/MTok, output $0.30/MTok
+  - Flash Low (`gemini-3-flash`): input $0.075/MTok, cached input $0.01875/MTok, output $0.30/MTok
 - For aspect-aware phase fan-out, push one entry **per aspect** into `phases[]` with `phase: "{phase_name}"` and `aspect: "{aspect}"` set; aspect-agnostic phases omit `aspect`.
 
 **3d-2. QA-specific telemetry** — when running the `qa` phase, parse the agent's compact summary for the lines `ITERATIONS_USED: N` (max 3, hard cap from the agent prompt) and `STATUS: complete | incomplete-blocked`. Record:
@@ -656,7 +652,7 @@ Write `docs/plans/{task_slug}/_telemetry.json`:
       "phase": "business_analysis",
       "aspect": null,
       "agent": "business-analyst",
-      "model": "claude-opus-4-8",
+      "model": "gemini-3-pro-high",
       "status": "completed",
       "input_tokens": 35000,
       "output_tokens": 3000,
@@ -669,7 +665,7 @@ Write `docs/plans/{task_slug}/_telemetry.json`:
       "phase": "qa",
       "aspect": null,
       "agent": "qa-engineer",
-      "model": "claude-sonnet-4-6",
+      "model": "gemini-3.5-flash",
       "status": "completed",
       "qa_iterations_used": 2,
       "qa_status": "completed",
@@ -811,7 +807,7 @@ Step 4: Build a detailed implementation plan:
 - Convention skills you will invoke during implementation: {convention_skills}
 - Risks and edge cases the plan must handle
 
-Follow project conventions found in CLAUDE.md and the active stack profile.
+Follow project conventions found in GEMINI.md and the active stack profile.
 
 Write the plan to: docs/plans/{task_slug}/02-development-plan.md
 
@@ -835,7 +831,7 @@ conservative interpretation and note it in your summary.
 Apply convention skills listed in the plan: {convention_skills}
 Invoke them proactively — don't just "consider" them.
 
-Follow project conventions found in CLAUDE.md and the active stack profile.
+Follow project conventions found in GEMINI.md and the active stack profile.
 
 Write a detailed implementation summary to: docs/plans/{task_slug}/02-development.md
 This file should include: list of files changed, key design decisions,
@@ -923,7 +919,7 @@ PR description must include:
 - Security notes (any reviewed concerns)
 - Linked issue (if mentioned in $ARGUMENTS)
 
-Follow project conventions in CLAUDE.md (commit message format, branch naming).
+Follow project conventions in GEMINI.md (commit message format, branch naming).
 
 Write the final PR summary to: docs/plans/{task_slug}/05-pr.md
 

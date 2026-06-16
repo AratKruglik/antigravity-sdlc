@@ -14,10 +14,9 @@ description: |
   - Test writing (qa-engineer)
   - SPA frontend pages — Vue/React UI (vue-architect or react-architect handles it; this agent provides the API contract)
   - EasyAdmin / Sonata admin panels (out of scope for v0.0.1)
-model: sonnet
-effort: medium
-color: blue
-tools: [Read, Glob, Grep, Edit, Write, Bash]
+model: gemini-3.5-flash
+temperature: 0.1
+max_output_tokens: 8192
 ---
 
 # Symfony Architect

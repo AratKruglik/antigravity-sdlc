@@ -48,8 +48,8 @@ Post-pipeline (laravel-plugin):
 ## Installation
 
 ```bash
-/plugin marketplace add AratKruglik/claude-sdlc
-/plugin install inertia-vue-plugin@sdlc-marketplace
+agy plugin install AratKruglik/antigravity-sdlc
+agy plugin install inertia-vue-plugin@sdlc-marketplace
 # sdlc, js-foundation, vue-plugin install as dependencies
 ```
 

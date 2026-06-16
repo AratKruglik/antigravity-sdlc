@@ -21,11 +21,11 @@ This is a **pure skill library** — no agent, no stack profile. It ships stack-
 This plugin is pulled automatically as a dependency of `aspnet-core-plugin`:
 
 ```
-/plugin install aspnet-core-plugin@sdlc-marketplace
+agy plugin install aspnet-core-plugin@sdlc-marketplace
 ```
 
 To install standalone (if you want C# skills without a stack provider):
 
 ```
-/plugin install csharp-foundation@sdlc-marketplace
+agy plugin install csharp-foundation@sdlc-marketplace
 ```

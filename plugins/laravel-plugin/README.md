@@ -44,8 +44,8 @@ Post-pipeline:
 ## Installation
 
 ```bash
-/plugin marketplace add AratKruglik/claude-sdlc
-/plugin install laravel-plugin@sdlc-marketplace
+agy plugin install AratKruglik/antigravity-sdlc
+agy plugin install laravel-plugin@sdlc-marketplace
 # sdlc installs as a dependency
 ```
 

@@ -15,10 +15,9 @@ description: |
   - Filament admin panels (out of scope for v0.0.1 — would be a sub-stack plugin in V2)
   - Pure Vue/frontend work in non-Laravel projects (use vanilla developer or a frontend-specific stack provider)
   - Inertia pages / Vue / React frontend (inertia-vue-architect or inertia-react-architect handles it)
-model: sonnet
-effort: medium
-color: blue
-tools: [Read, Glob, Grep, Edit, Write, Bash, mcp__laravel-boost__artisan, mcp__laravel-boost__schema, mcp__laravel-boost__route_list, mcp__laravel-boost__tinker]
+model: gemini-3.5-flash
+temperature: 0.1
+max_output_tokens: 8192
 ---
 
 # Laravel Architect
@@ -73,7 +72,7 @@ Always attempt MCP first; if the tool is unavailable or errors, fall back to Bas
 ## Steps
 
 1. **Read the spec** at `docs/plans/{task_slug}/01-business-analysis.md`.
-2. **Read project conventions:** `CLAUDE.md`, `composer.json` (Laravel version, key packages), `package.json` (Vue, Inertia versions), recent code patterns in `app/`.
+2. **Read project conventions:** `GEMINI.md`, `composer.json` (Laravel version, key packages), `package.json` (Vue, Inertia versions), recent code patterns in `app/`.
 3. **Plan changes briefly** before editing — avoid touching more than the BA scope requires.
 4. **Implement, layer by layer:**
    - **Migration outline** (the artisan-specialist will fill details in the next phase). Create the migration file with empty `up()`/`down()` for now, OR a minimal stub — the extra phase elaborates.

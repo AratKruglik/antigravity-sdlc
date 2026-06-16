@@ -39,7 +39,7 @@ Override with: /sdlc:start --stack=NAME "<feature>"
 If no profiles found except vanilla:
 ```
 Only the vanilla profile is registered. Install a framework plugin
-(e.g. /plugin install laravel-plugin@sdlc-marketplace) to add stack-specific agents.
+(e.g. agy plugin install laravel-plugin) to add stack-specific agents.
 ```
 
 ## When to use

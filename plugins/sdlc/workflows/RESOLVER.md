@@ -17,7 +17,7 @@ Search path (in order, first match wins):
 ~/.gemini/config/plugins/sdlc/workflows/{WORKFLOW_NAME}.yaml
 ```
 
-*(Iteration 4+: also search `<project>/.agents/sdlc-workflows/` or `<project>/.claude/sdlc-workflows/` for project-local recipes.)*
+*(Iteration 4+: also search `<project>/.agents/sdlc-workflows/` or `<project>/.agents/sdlc-workflows/` for project-local recipes.)*
 
 If no file is found → **HALT**:
 

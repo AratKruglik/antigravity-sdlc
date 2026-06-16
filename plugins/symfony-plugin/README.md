@@ -48,8 +48,8 @@ Post-pipeline:
 ## Installation
 
 ```bash
-/plugin marketplace add AratKruglik/claude-sdlc
-/plugin install symfony-plugin@sdlc-marketplace
+agy plugin install AratKruglik/antigravity-sdlc
+agy plugin install symfony-plugin@sdlc-marketplace
 # sdlc and php-foundation install as dependencies
 ```
 

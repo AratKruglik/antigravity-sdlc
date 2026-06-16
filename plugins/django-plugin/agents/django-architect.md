@@ -13,10 +13,9 @@ description: |
   - Django ORM migrations, model field finalization, index/constraint definition (django-migrations-specialist handles those in the extra database phase)
   - Test writing (qa-engineer)
   - SPA frontend pages — Vue/React UI (vue-architect or react-architect handles it; this agent provides the DRF API contract)
-model: sonnet
-effort: medium
-color: blue
-tools: [Read, Glob, Grep, Edit, Write, Bash]
+model: gemini-3.5-flash
+temperature: 0.1
+max_output_tokens: 8192
 ---
 
 # Django Architect

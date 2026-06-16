@@ -434,7 +434,7 @@ This is the **only** checkpoint in the new architecture. No 4-layer checks, proj
         "version": ">=1.0.0",
         "policy": "warn",
         "skills_used": [
-          "thinking-deeply",
+          "brainstorming",
           "test-driven-development",
           "verification-before-completion"
         ],

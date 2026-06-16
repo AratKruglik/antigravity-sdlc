@@ -15,13 +15,13 @@ We provide a streamlined installation script that automatically resolves plugin 
 You don't need to clone the repository manually. You can install the core orchestrator directly:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/AratKruglik/antigravity-sdlc/main/install.sh | bash -s -- sdlc
+curl -fsSL https://raw.githubusercontent.com/AratKruglik/antigravity-sdlc/main/plugins/sdlc/install.sh | bash -s -- sdlc
 ```
 
 To install the orchestrator along with specific stack plugins in one command:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/AratKruglik/antigravity-sdlc/main/install.sh | bash -s -- sdlc,laravel-plugin,nextjs-plugin
+curl -fsSL https://raw.githubusercontent.com/AratKruglik/antigravity-sdlc/main/plugins/sdlc/install.sh | bash -s -- sdlc,laravel-plugin,nextjs-plugin
 ```
 
 ### Option B: Local Clone Installation
@@ -96,7 +96,7 @@ Once verified, you can run the pipeline on any project:
 ## Available Plugins & Installation Reference
 
 The following table lists all 24 plugins available in the marketplace. You can install any plugin:
-1. **Via one-liner:** `curl -fsSL https://raw.githubusercontent.com/AratKruglik/antigravity-sdlc/main/install.sh | bash -s -- <plugin-name>`
+1. **Via one-liner:** `curl -fsSL https://raw.githubusercontent.com/AratKruglik/antigravity-sdlc/main/plugins/sdlc/install.sh | bash -s -- <plugin-name>`
 2. **Via active session command:** `/sdlc:install <plugin-name>`
 
 *Note: Dependencies (such as foundation libraries) are resolved and installed automatically.*

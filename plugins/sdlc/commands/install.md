@@ -19,9 +19,9 @@ If `$ARGUMENTS` is empty:
 
 ### Step 2 — Run the installer script
 
-Run the remote installer script directly via the terminal tool using this exact command:
+Run the installer script directly via the terminal tool using this exact command:
 ```bash
-curl -fsSL https://raw.githubusercontent.com/AratKruglik/antigravity-sdlc/main/install.sh | bash -s -- "$ARGUMENTS"
+bash "${ANTIGRAVITY_PLUGIN_ROOT:-${AGY_PLUGIN_ROOT:-${CLAUDE_PLUGIN_ROOT}}}/install.sh" "$ARGUMENTS"
 ```
 
 ### Step 3 — Post-install verification
